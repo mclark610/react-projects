@@ -31,7 +31,7 @@ export default class FormDialog extends React.Component {
 
   componentDidMount() {
       console.log("componentDidMount ID: " + this.props.maintainID)
-      this.setState({btnLogin:"Logins"});
+      this.setState({btnLogin:"Login"});
   }
 
   handleLogin = (e) => {

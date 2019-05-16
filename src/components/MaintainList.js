@@ -18,7 +18,7 @@ class MaintainList extends Component {
 
     getMaintains() {
         console.log("IN GET MAINTAINS")
-
+/*
         axios.post("http://localhost:5000/user/login", {
                 username: 'mclark',
                 password: 'password'
@@ -52,7 +52,7 @@ class MaintainList extends Component {
 
         .then( (response2) => {
 
-/*
+
            axios.get("https://casualcoder.net:5000/maintain", {withCredentials: true,
                                                                 crossdomain: true,
                                                                 rejectUnauthorized: false,
@@ -78,7 +78,6 @@ class MaintainList extends Component {
 
                     console.log("MAINTAINS--- " + JSON.stringify(this.state.maintains));
                 })
-            })
         .catch( (err) => {
             console.log("error!: " + JSON.stringify(err));
         })

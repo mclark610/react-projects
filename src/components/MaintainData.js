@@ -20,8 +20,31 @@ const doLogin = (username, password) => {
                 password: password
             },
             localhostOptions
-            )
-    };
+    )
+};
+
+const doMaintainList = () => {
+        return axios.get("http://localhost:5000/maintain", {    withCredentials: true,
+                                                                crossdomain: true,
+                                                                rejectUnauthorized: false,
+            })
+                    .then( (response) => {
+                        console.log("get maintain response: " + JSON.stringify(response));
+                        console.log("response header: " + JSON.stringify(response.headers));
+                        this.setState({maintains: response.data});
+
+                        // User logged in?
+                        if (this.state.maintains.status) {
+                            console.log("user status is : " + this.state.maintains.status);
+                            throw( new Error("User not logged in"));
+                        }
+
+                        console.log("MAINTAINS--- " + JSON.stringify(this.state.maintains));
+                    })
+                    .catch( (err) => {
+                        console.log("error!: " + JSON.stringify(err));
+                    })
+}
 
 export
-    default doLogin;
+    default {doLogin, doMaintainList};
