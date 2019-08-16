@@ -1,10 +1,11 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import {ExpansionPanel,ExpansionPanelSummary,ExpansionPanelDetails} from '@material-ui/core';
 import {TextField} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Switch from '@material-ui/core/Switch';
 
 const styles = theme => ({
   container: {
@@ -15,16 +16,26 @@ const styles = theme => ({
     flex: 1,
   },
   grid: {
-      textAlign: 'center'
+      textAlign: 'center',
+      border: '2px solid rgba(0, 0, 0, 0.23)',
+      borderStyle: 'solid',
+      borderColor: 'red',
+      borderTopWidth: 1,
+      borderRadius: 3
   },
   textField: {
       marginLeft: theme.spacing.unit,
       marginRight: theme.spacing.unit,
-      width: 200,
     },
     dense: {
       marginTop: 19,
   },
+  paper: {
+    padding: theme.spacing.unit * 3,
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+
 });
 
 class MaintainPanel extends React.Component {
@@ -32,33 +43,41 @@ class MaintainPanel extends React.Component {
         open: false,
         maintain: [],
         expanded: 'panel-maintain',
-        checked: [0]
+        checked: [false]
     }
+
+    componentDidMount() {
+        this.setState({
+            maintain: this.props.maintain
+        })
+    }
+
     handleChange = name => (event,expanded) => {
+
+        console.log("event.target.value: " + event.target.value);
+        console.log("expanded: " + expanded);
+        console.log("typeof expanded: " + typeof expanded);
         this.setState({ [name]: event.target.value });
-        if(typeof expanded != 'undefined') {
+
+        if (typeof expanded != 'undefined') {
             this.setState({expanded: expanded ? 'panel-maintain' : false});
         }
     };
 
-    handleToggle = value => () => {
-        const { checked } = this.state;
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
-
-        if (currentIndex === -1) {
-          newChecked.push(value);
-        } else {
-          newChecked.splice(currentIndex, 1);
-        }
-        this.setState({
-          checked: newChecked,
-        });
+    handleToggle = value => (event) => {
+        this.setState({[value]: event.target.value});
+        console.log("value: " + value);
+        console.log("state: " + this.state.value)
     }
 
+    onComponent
     render() {
         const { classes } = this.props;
         const { expanded } = this.state;
+        console.log(" ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" );
+        console.log("this.props: " + JSON.stringify(this.props));
+        console.log("this.state: " + JSON.stringify(this.state.maintain));
+        console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
 
         return(
                 <ExpansionPanel
@@ -70,78 +89,78 @@ class MaintainPanel extends React.Component {
                         <Typography>Maintain</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                        <form className={classes.container} noValidate autoComplete="off">
-                        <Grid container className={styles.grid} spacing={24}>
-                            <Grid item xs={12}>
-                                <TextField
-                                    id="maintain-name"
-                                    label="Name"
-                                    className={classes.TextField}
-                                    value={this.state.name}
-                                    onChange={this.handleChange('name')}
-                                    margin="normal"
-                                    />
+                        <form  noValidate autoComplete="off">
+                        <Grid container  spacing={8}>
+                            <Grid item xs={8}>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={4}>
+                            </Grid>
+
+
+                            <Grid item xs={8}>
+                                  <TextField
+                                    id="maintain-name"
+                                    label="Maintain"
+                                    onChange={this.handleChange('maintain-name')}
+                                    margin="normal"
+                                    fullWidth
+                                    value={this.state.maintain.name?this.state.maintain.name:''}
+                                    inputProps={{
+                                        error: "true",
+
+                                    }}
+                                  />
+                            </Grid>
+                            <Grid item xs={2} >
                                 <TextField
-                                    id="maintain-description"
-                                    label="Description"
-                                    className={classes.TextField}
-                                    value={this.state.description}
-                                    multiline
-                                    onChange={this.handleChange('description')}
+                                    id="maintain-part-nbr"
+                                    label="Part #"
+                                    value={this.state.maintain.part_nbr?this.state.maintain.part_nbr:'xs4'}
+                                    onChange={this.handleChange('part_nbr')}
+                                    fullWidth
                                     margin="normal"
                                     />
                             </Grid>
                             <Grid item xs={2}>
-                                <TextField
-                                    id="maintain-part-nbr"
-                                    label="Part #"
-                                    className={classes.TextField}
-                                    value={this.state.part_nbr}
-                                    onChange={this.handleChange('part_nbr')}
-                                    margin="normal"
-                                    />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <TextField
-                                    id="maintain-status"
-                                    label="Status"
-                                    className={classes.TextField}
-                                    value={this.state.description}
-                                    onChange={this.handleChange('status')}
-                                    margin="normal"
-                                    />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <TextField
-                                    id="maintain-complete"
-                                    label="Complete"
-                                    className={classes.TextField}
-                                    value={this.state.complete}
-                                    onChange={this.handleChange('complete')}
-                                    margin="normal"
-                                    />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <IconButton
-                                    id="maintain-btn-add"
-                                    label="Add"
-                                    className={classes.TextField}
-                                    value={this.state.complete}
-                                    onChange={this.handleChange('add-button')}
-                                    margin="normal"
-                                    />
-                                </Grid>
-                                <Grid item xs={3}>
-                                    <IconButton
-                                        id="maintain-btn-cancel"
-                                        label="Cancel"
-                                        className={classes.TextField}
-                                        value={this.state.complete}
-                                        onChange={this.handleChange('cancel-button')}
+                                    <Switch
+                                        id="maintain-active"
+                                        label="Active"
+                                        onChange={this.handleToggle('maintain-active')}
+                                        color="default"
                                         margin="normal"
                                         />
+                            </Grid>
+
+                            <Grid item xs={10}>
+                                <Paper className={styles.paper}>
+                                <TextField
+                                    id="maintain-description"
+                                    label="Description"
+                                    multiline
+                                    fullWidth
+                                    inputProps= {{
+                                          defaultValue: 'Yo boy Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident eum deserunt, soluta voluptatem fugiat modi nulla, aut, accusamus neque dolorum molestiae repellat quidem. Error neque nisi doloribus mollitia quidem fuga.',
+                                          error: "false",
+                                          rows:4
+
+                                    }}
+                                    />
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={2}>
+                            </Grid>
+
+
+                            <Grid item xs={4} >
+                            </Grid>
+
+                            <Grid item xs={4} >
+                            </Grid>
+
+                            <Grid item xs={2} >
+                            </Grid>
+
+                            <Grid item xs={2} >
                             </Grid>
                         </Grid>
                     </form>

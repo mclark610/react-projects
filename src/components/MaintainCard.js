@@ -12,7 +12,9 @@ class MaintainCard extends Component {
         }
 
         render() {
+            console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
             console.log(this.props)
+            console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
             return(
                 <div>
                     { this.props.maintain ? (

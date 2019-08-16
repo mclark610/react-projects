@@ -33,7 +33,7 @@ function MainMenu(props) {
           <Typography variant="h6" color="inherit" className={classes.grow}>
             Maintain
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button id="loginButton" color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
     </div>

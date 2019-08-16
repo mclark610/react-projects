@@ -7,7 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import doLogin from './MaintainData';
+import {doLogin} from './MaintainData';
 
 export default class FormDialog extends React.Component {
   state = {
@@ -19,6 +19,10 @@ export default class FormDialog extends React.Component {
 
   handleClickOpen = () => {
     this.setState({ open: true });
+    alert("username; " + this.state.username );
+    if ( this.state.username !== '') {
+        alert("Signout?");
+    }
   };
 
   handleClose = () => {
@@ -38,9 +42,9 @@ export default class FormDialog extends React.Component {
      // axios
     doLogin(this.state.username,this.state.password)
         .then( (results) => {
-
-            this.setState({username: results.data.return.user});
-            this.setState({btnLogin: results.data.return.user});
+            console.log("results: " + JSON.stringify(results));
+            this.setState({username: results.data});
+            this.setState({btnLogin: results.data});
 
             console.log("handleLogin: checking state: " + this.state.btnLogin);
             console.log("handleLogin: checking state: " + this.state.username);
@@ -48,12 +52,14 @@ export default class FormDialog extends React.Component {
             this.setState({open: false});
             alert(this.state.username + " logged in");
         })
+        /*
         .catch( (error) => {
             alert("MaintainData:FAILED:  " + JSON.stringify(error));
 
             this.setState({btnLogin:"Login"});
 
         })
+        */
   }
 
   handleSubmit(e) {
@@ -82,26 +88,25 @@ export default class FormDialog extends React.Component {
               For each wrong password given is one child we will take and feed to the hounds.
             </DialogContentText>
             <form action="">
-
-            <TextField
-              autoFocus
-              margin="dense"
-              id="username"
-              label="User Name"
-              value={this.state.username}
-              onChange={this.handleChange('username')}
-              fullWidth
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="password"
-              label="Password"
-              type="password"
-              value={this.state.password}
-              onChange={this.handleChange('password')}
-              fullWidth
-            />
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="username"
+                  label="User Name"
+                  value={this.state.username}
+                  onChange={this.handleChange('username')}
+                  fullWidth
+                />
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="password"
+                  label="Password"
+                  type="password"
+                  value={this.state.password}
+                  onChange={this.handleChange('password')}
+                  fullWidth
+                />
             </form>
           </DialogContent>
           <DialogActions>

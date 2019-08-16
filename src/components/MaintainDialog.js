@@ -70,6 +70,10 @@ class MaintainDialog extends React.Component {
       let query = `query{
         maintain(id:${id}) {
           name,
+          description,
+          complete,
+          part_nbr,
+          status,
           todos {
             id,
             name,
@@ -147,8 +151,8 @@ class MaintainDialog extends React.Component {
               </Button>
             </Toolbar>
           </AppBar>
-            <MaintainPanel />
-            <TaskPanel />
+            <MaintainPanel maintain={this.state.maintain}/>
+            <TaskPanel     tasks={this.state.maintain.todos}/>
             <NotePanel />
             <PartPanel />
         </Dialog>
