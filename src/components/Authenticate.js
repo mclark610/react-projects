@@ -20,32 +20,18 @@ class Authenticate extends React.Component {
 
     constructor (props) {
         super(props)
-        this.state = {
-            date: new Date()
-        }
     }
 
-    tick() {
-        this.setState({
-            date: new Date()
-        })
-    }
 
     componentDidMount() {
-        this.timerID = setInterval(
-          () => this.tick(),
-          1000
-        );
     }
 
     componentWillUmount() {
-        clearInterval(this.timerID);
     }
 
     render() {
         return(
             <div>
-            <h1>{this.state.date.toLocaleString()}</h1>
             <UserDialog />
             </div>
         );
