@@ -28,7 +28,7 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
-class MaintainDialog extends React.Component {
+class ProjectDialog extends React.Component {
   state = {
     open: false,
   };
@@ -82,8 +82,8 @@ class MaintainDialog extends React.Component {
   }
 }
 
-MaintainDialog.propTypes = {
+ProjectDialog.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MaintainDialog);
+export default withStyles(styles)(ProjectDialog);

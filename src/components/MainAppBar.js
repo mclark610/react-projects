@@ -31,7 +31,7 @@ function MainAppBar(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" className={classes.grow}>
-            Maintain
+            Project
           </Typography>
           <Authenticate />
         </Toolbar>

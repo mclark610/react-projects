@@ -23,10 +23,10 @@ const doLogin = (username, password) => {
     )
 };
 
-const doMaintainList = () => {
-        return new axios.get("http://localhost:5000/maintain", localhostOptions )
+const doProjectList = () => {
+        return new axios.get("http://localhost:5000/project", localhostOptions )
 };
 
 
 exports.doLogin =  doLogin;
-exports.doMaintainList = doMaintainList;
+exports.doProjectList = doProjectList;

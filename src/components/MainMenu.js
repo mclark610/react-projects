@@ -31,7 +31,7 @@ function MainMenu(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" className={classes.grow}>
-            Maintain
+            Project
           </Typography>
           <Button id="loginButton" color="inherit">Login</Button>
         </Toolbar>

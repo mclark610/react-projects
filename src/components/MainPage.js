@@ -1,12 +1,12 @@
 import  React, {Component } from 'react'
-import MaintainList from './MaintainList'
+import ProjectList from './ProjectList'
 
 
 class MainPage extends Component {
     render() {
         return (
             <div>
-              <MaintainList />
+              <ProjectList />
             </div>
         )
     }

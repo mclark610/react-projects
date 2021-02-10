@@ -1,11 +1,26 @@
 import  React, {Component } from 'react'
+import clsx from 'clsx';
+import {withStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
-import MaintainCard from './MaintainCard';
-import {doMaintainList} from './MaintainData';
+import ProjectCard from './ProjectCard';
+import {doProjectList} from './ProjectData';
+import {Container} from '@material-ui/core';
+import {Paper} from '@material-ui/core';
 
+const styles = theme => ({
+    container: {
+        height: "80%",
+        width: "80%",
+        margin: "1rem",
+        textAlign: 'center',
+        display: 'inline-block',
+        
+    }
+});
 
-class MaintainList extends Component {
+class ProjectList extends Component {
+
     state = {
         maintains: [],
         searchFor: '',
@@ -13,7 +28,7 @@ class MaintainList extends Component {
     }
 
     componentDidMount() {
-        doMaintainList()
+        doProjectList()
             .then( (response) => {
                 console.log("get maintain response react: " + JSON.stringify(response));
                 console.log("data is : " + JSON.stringify(response.data));
@@ -33,6 +48,7 @@ class MaintainList extends Component {
     }
 
     render() {
+        const {classes} = this.props;
             return (
                 <div>
                     {
@@ -46,16 +62,22 @@ class MaintainList extends Component {
                                 onChange={this.onSearchInputChange}
                                 />
                             <Grid container spacing={24} style={{padding: 24}}>
-                                { this.state.maintains.map(currentMaintain => (
-                                    <Grid item key={currentMaintain.id} xs={12} sm={6} lg={4} xl={3}>
-                                        <MaintainCard maintain={currentMaintain} />
+                                { this.state.maintains.map(currentProject => (
+                                    <Grid item key={currentProject.id} xs={12} sm={6} lg={4} xl={3}>
+                                        <ProjectCard maintain={currentProject} />
                                     </Grid>
                                 ))}
                             </Grid>
                             </div>
                         )
                         :
-                        this.state.loginStatus
+                        <Container maxWidth="lg">
+                            <Paper elevation={1} className={classes.container}>
+                                {this.state.loginStatus}<br/>
+
+                            </Paper>
+
+                        </Container>
                     }
 
 
@@ -65,4 +87,4 @@ class MaintainList extends Component {
 
 }
 
-export default MaintainList;
+export default withStyles(styles)(ProjectList);

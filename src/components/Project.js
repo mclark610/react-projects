@@ -1,8 +1,8 @@
 import  React from 'react'
 
-function Maintain(props) {
+function Project(props) {
     return <h1>Hello, props.id</h1>
 
 }
 
-export default Maintain
+export default Project

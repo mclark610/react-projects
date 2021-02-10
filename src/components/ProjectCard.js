@@ -3,9 +3,9 @@ import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-import MaintainDialog from './MaintainDialog';
+import ProjectDialog from './ProjectDialog';
 
-class MaintainCard extends Component {
+class ProjectCard extends Component {
         state = {
             open: false,
             selectedValue: false
@@ -34,7 +34,7 @@ class MaintainCard extends Component {
                                 </Typography>
                             </CardContent>
                             <CardActions>
-                                <MaintainDialog
+                                <ProjectDialog
                                   selectedValue={this.state.selectedValue}
                                   maintainID={this.props.maintain.id}
                                   open={this.state.open}
@@ -48,4 +48,4 @@ class MaintainCard extends Component {
         }
     }
 
-export default MaintainCard;
+export default ProjectCard;

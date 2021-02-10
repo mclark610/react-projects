@@ -38,7 +38,7 @@ const styles = theme => ({
 
 });
 
-class MaintainPanel extends React.Component {
+class ProjectPanel extends React.Component {
     state = {
         open: false,
         maintain: [],
@@ -86,7 +86,7 @@ class MaintainPanel extends React.Component {
                 onChange={this.handleChange('panel-maintain')}
                 >
                     <ExpansionPanelSummary>
-                        <Typography>Maintain</Typography>
+                        <Typography>Project</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                         <form  noValidate autoComplete="off">
@@ -100,7 +100,7 @@ class MaintainPanel extends React.Component {
                             <Grid item xs={8}>
                                   <TextField
                                     id="maintain-name"
-                                    label="Maintain"
+                                    label="Project"
                                     onChange={this.handleChange('maintain-name')}
                                     margin="normal"
                                     fullWidth
@@ -170,4 +170,4 @@ class MaintainPanel extends React.Component {
     }
 }
 
-export default withStyles(styles)(MaintainPanel);
+export default withStyles(styles)(ProjectPanel);

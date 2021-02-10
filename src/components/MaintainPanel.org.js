@@ -46,7 +46,7 @@ const styles = theme => ({
 
 });
 
-class MaintainPanel extends React.Component {
+class ProjectPanel extends React.Component {
     state = {
         open: false,
         maintain: [],
@@ -96,7 +96,7 @@ class MaintainPanel extends React.Component {
                 onChange={this.handleChange('panel-maintain')}
                 >
                     <ExpansionPanelSummary>
-                        <Typography>Maintain</Typography>
+                        <Typography>Project</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                         <form className={classes.container} noValidate autoComplete="off">
@@ -172,4 +172,4 @@ class MaintainPanel extends React.Component {
     }
 }
 
-export default withStyles(styles)(MaintainPanel);
+export default withStyles(styles)(ProjectPanel);

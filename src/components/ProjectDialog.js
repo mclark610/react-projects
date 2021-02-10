@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import {Button} from '@material-ui/core';
-import MaintainPanel from './MaintainPanel';
+import ProjectPanel from './ProjectPanel';
 import PartPanel from './PartPanel';
 import NotePanel from './NotePanel';
 import TaskPanel from './TaskPanel';
@@ -29,7 +29,7 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
-class MaintainDialog extends React.Component {
+class ProjectDialog extends React.Component {
   state = {
     open: false,
     maintain: [],
@@ -39,7 +39,7 @@ class MaintainDialog extends React.Component {
 
     componentDidMount() {
         console.log("componentDidMount ID: " + this.props.maintainID)
-        this.getMaintain(this.props.maintainID);
+        this.getProject(this.props.maintainID);
     }
 
   handleClickOpen = () => {
@@ -66,7 +66,7 @@ class MaintainDialog extends React.Component {
         checked: newChecked,
       });
   };
-  getMaintain(id) {
+  getProject(id) {
       let query = `query{
         maintain(id:${id}) {
           name,
@@ -151,7 +151,7 @@ class MaintainDialog extends React.Component {
               </Button>
             </Toolbar>
           </AppBar>
-            <MaintainPanel maintain={this.state.maintain}/>
+            <ProjectPanel maintain={this.state.maintain}/>
             <TaskPanel     tasks={this.state.maintain.todos}/>
             <NotePanel />
             <PartPanel />
@@ -161,8 +161,8 @@ class MaintainDialog extends React.Component {
   }
 }
 
-MaintainDialog.propTypes = {
+ProjectDialog.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MaintainDialog);
+export default withStyles(styles)(ProjectDialog);
