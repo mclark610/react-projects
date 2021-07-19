@@ -4,9 +4,22 @@ import ProjectList from './ProjectList'
 
 class MainPage extends Component {
     render() {
+        let loginMessage;
+        let projectList;
+
+        if ( this.props.name !== 'Login')  {
+            loginMessage = <h4>User not logged in</h4>;
+        }
+        else {
+            loginMessage = <h4>User Logged in</h4>;
+            projectList = <ProjectList/>;
+        }
+
         return (
             <div>
-              <ProjectList />
+                <h2>MainPage</h2>
+                {loginMessage}
+                {projectList}
             </div>
         )
     }

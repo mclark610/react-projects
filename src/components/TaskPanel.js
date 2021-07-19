@@ -10,9 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import {ExpansionPanel,ExpansionPanelSummary,ExpansionPanelDetails} from '@material-ui/core';
 import {List, ListItem,ListItemText, ListItemSecondaryAction,Checkbox} from '@material-ui/core';
 import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
 import TaskDialog from './TaskDialog';
 
 const styles = theme => ({

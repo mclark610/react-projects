@@ -7,59 +7,56 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import {doLogin} from './ProjectData';
 
-export default class FormDialog extends React.Component {
+import {doLogin} from './ProjectData';
+import PropTypes from 'prop-types';
+
+class UserDialog extends React.Component {
   state = {
     open: false,
-    btnLogin: "Login",
+    btnLogin: '',
     username: '',
     password: ''
   };
 
   handleClickOpen = () => {
     this.setState({ open: true });
-    alert("username; " + this.state.username );
-    if ( this.state.username !== '') {
-        alert("Signout?");
-    }
   };
 
   handleClose = () => {
     this.setState({ open: false });
   };
 
-  handleChange = name => (event) => {
-      this.setState({ [name]: event.target.value });
+  handleChange = (e) => {
+    console.log("name: " + e.target.name);
+    console.log("value:" + e.target.value);
+    console.log("id: " + e.target.id);
+
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   componentDidMount() {
-      console.log("componentDidMount ID: " + this.props.maintainID)
       this.setState({btnLogin:"Login"});
   }
 
   handleLogin = (e) => {
+
      // axios
     doLogin(this.state.username,this.state.password)
         .then( (results) => {
             console.log("results: " + JSON.stringify(results));
-            this.setState({username: results.data});
-            this.setState({btnLogin: results.data});
 
-            console.log("handleLogin: checking state: " + this.state.btnLogin);
-            console.log("handleLogin: checking state: " + this.state.username);
-
+            this.setState({btnLogin: this.state.username});
             this.setState({open: false});
-            alert(this.state.username + " logged in");
+
         })
-        /*
         .catch( (error) => {
             alert("ProjectData:FAILED:  " + JSON.stringify(error));
 
             this.setState({btnLogin:"Login"});
 
         })
-        */
+
   }
 
   handleSubmit(e) {
@@ -67,7 +64,6 @@ export default class FormDialog extends React.Component {
       e.preventDefault();
   }
   render() {
-      const { classes } = this.props;
     return (
       <div>
         <Button
@@ -92,19 +88,21 @@ export default class FormDialog extends React.Component {
                   autoFocus
                   margin="dense"
                   id="username"
+                  name="username"
                   label="User Name"
                   value={this.state.username}
-                  onChange={this.handleChange('username')}
+                  onChange={this.handleChange}
                   fullWidth
                 />
                 <TextField
                   autoFocus
                   margin="dense"
                   id="password"
+                  name="password"
                   label="Password"
                   type="password"
                   value={this.state.password}
-                  onChange={this.handleChange('password')}
+                  onChange={this.handleChange}
                   fullWidth
                 />
             </form>
@@ -122,3 +120,9 @@ export default class FormDialog extends React.Component {
     );
   }
 }
+
+UserDialog.propTypes = {
+  username: PropTypes.string,
+}
+
+export default UserDialog;

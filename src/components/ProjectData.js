@@ -6,14 +6,10 @@ const localhostOptions = {
     crossdomain: true
 };
 
-const remoteOptions = {
-    rejectUnauthorized: false,
-    withCredentials: false,
-    crossdomain: false
-};
-
 const doLogin = (username, password) => {
     const url="http://localhost:5000/user/login";
+
+    console.log("ProjectData:doLogin:username: " + username + " password: " + password + " url: " + url);
 
     return new axios.post(url, {
                 username: username,

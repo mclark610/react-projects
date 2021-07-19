@@ -59,7 +59,7 @@ class ProjectPanel extends React.Component {
         console.log("typeof expanded: " + typeof expanded);
         this.setState({ [name]: event.target.value });
 
-        if (typeof expanded != 'undefined') {
+        if (typeof expanded !== 'undefined') {
             this.setState({expanded: expanded ? 'panel-maintain' : false});
         }
     };
@@ -72,7 +72,6 @@ class ProjectPanel extends React.Component {
 
     onComponent
     render() {
-        const { classes } = this.props;
         const { expanded } = this.state;
         console.log(" ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" );
         console.log("this.props: " + JSON.stringify(this.props));
