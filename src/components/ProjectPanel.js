@@ -1,37 +1,40 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import {ExpansionPanel,ExpansionPanelSummary,ExpansionPanelDetails} from '@material-ui/core';
 import {TextField} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Switch from '@material-ui/core/Switch';
 
+import { Accordion,AccordionSummary, AccordionDetails  } from '@material-ui/core';
+
 const styles = theme => ({
   container: {
         display: 'flex',
         flexWrap: 'wrap',
+        backgroundColor: "green",
+        color:"red"
   },
   flex: {
     flex: 1,
   },
   grid: {
-      textAlign: 'center',
-      border: '2px solid rgba(0, 0, 0, 0.23)',
+      textAlign: 'left',
+      border: '2px solid black',
       borderStyle: 'solid',
       borderColor: 'red',
       borderTopWidth: 1,
       borderRadius: 3
   },
   textField: {
-      marginLeft: theme.spacing.unit,
-      marginRight: theme.spacing.unit,
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
     },
     dense: {
       marginTop: 19,
   },
   paper: {
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing(3),
     textAlign: 'center',
     color: theme.palette.text.secondary,
   },
@@ -41,15 +44,8 @@ const styles = theme => ({
 class ProjectPanel extends React.Component {
     state = {
         open: false,
-        maintain: [],
-        expanded: 'panel-maintain',
+        expanded: 'panel-project',
         checked: [false]
-    }
-
-    componentDidMount() {
-        this.setState({
-            maintain: this.props.maintain
-        })
     }
 
     handleChange = name => (event,expanded) => {
@@ -60,7 +56,7 @@ class ProjectPanel extends React.Component {
         this.setState({ [name]: event.target.value });
 
         if (typeof expanded !== 'undefined') {
-            this.setState({expanded: expanded ? 'panel-maintain' : false});
+            this.setState({expanded: expanded ? 'panel-project' : false});
         }
     };
 
@@ -70,51 +66,43 @@ class ProjectPanel extends React.Component {
         console.log("state: " + this.state.value)
     }
 
-    onComponent
     render() {
         const { expanded } = this.state;
         console.log(" ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" );
         console.log("this.props: " + JSON.stringify(this.props));
-        console.log("this.state: " + JSON.stringify(this.state.maintain));
+        console.log("this.state: " + JSON.stringify(this.state.project));
         console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
 
         return(
-                <ExpansionPanel
+                <Accordion
                 square
-                expanded={expanded === 'panel-maintain'}
-                onChange={this.handleChange('panel-maintain')}
+                expanded={expanded === 'panel-project'}
+                onChange={this.handleChange('panel-project')}
                 >
-                    <ExpansionPanelSummary>
+                    <AccordionSummary>
                         <Typography>Project</Typography>
-                    </ExpansionPanelSummary>
-                    <ExpansionPanelDetails>
+                    </AccordionSummary>
+                    <AccordionDetails >
                         <form  noValidate autoComplete="off">
                         <Grid container  spacing={8}>
                             <Grid item xs={8}>
-                            </Grid>
-                            <Grid item xs={4}>
-                            </Grid>
-
-
-                            <Grid item xs={8}>
                                   <TextField
-                                    id="maintain-name"
+                                    id="project-name"
                                     label="Project"
-                                    onChange={this.handleChange('maintain-name')}
+                                    onChange={this.handleChange('project-name')}
                                     margin="normal"
                                     fullWidth
-                                    value={this.state.maintain.name?this.state.maintain.name:''}
+                                    value={this.props.project.name?this.props.project.name:''}
                                     inputProps={{
                                         error: "true",
-
                                     }}
                                   />
                             </Grid>
                             <Grid item xs={2} >
                                 <TextField
-                                    id="maintain-part-nbr"
+                                    id="project-part-nbr"
                                     label="Part #"
-                                    value={this.state.maintain.part_nbr?this.state.maintain.part_nbr:'xs4'}
+                                    value={this.props.project.part_nbr?this.state.project.part_nbr:'xs4'}
                                     onChange={this.handleChange('part_nbr')}
                                     fullWidth
                                     margin="normal"
@@ -122,9 +110,9 @@ class ProjectPanel extends React.Component {
                             </Grid>
                             <Grid item xs={2}>
                                     <Switch
-                                        id="maintain-active"
+                                        id="project-active"
                                         label="Active"
-                                        onChange={this.handleToggle('maintain-active')}
+                                        onChange={this.handleToggle('project-active')}
                                         color="default"
                                         margin="normal"
                                         />
@@ -133,14 +121,14 @@ class ProjectPanel extends React.Component {
                             <Grid item xs={10}>
                                 <Paper className={styles.paper}>
                                 <TextField
-                                    id="maintain-description"
+                                    id="project-description"
                                     label="Description"
                                     multiline
                                     fullWidth
                                     inputProps= {{
-                                          defaultValue: 'Yo boy Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident eum deserunt, soluta voluptatem fugiat modi nulla, aut, accusamus neque dolorum molestiae repellat quidem. Error neque nisi doloribus mollitia quidem fuga.',
+                                          defaultValue: this.props.project.description,
                                           error: "false",
-                                          rows:4
+                                          minRows:4
 
                                     }}
                                     />
@@ -163,8 +151,8 @@ class ProjectPanel extends React.Component {
                             </Grid>
                         </Grid>
                     </form>
-                    </ExpansionPanelDetails>
-                </ExpansionPanel>
+                    </AccordionDetails>
+                </Accordion>
         )
     }
 }

@@ -7,8 +7,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-
-import {doLogin} from './ProjectData';
 import PropTypes from 'prop-types';
 
 class UserDialog extends React.Component {
@@ -36,43 +34,23 @@ class UserDialog extends React.Component {
   };
 
   componentDidMount() {
+    console.log("UserDialog coming up")
       this.setState({btnLogin:"Login"});
+      this.setState({ open: true });
   }
 
   handleLogin = (e) => {
-
-     // axios
-    doLogin(this.state.username,this.state.password)
-        .then( (results) => {
-            console.log("results: " + JSON.stringify(results));
-
-            this.setState({btnLogin: this.state.username});
-            this.setState({open: false});
-
-        })
-        .catch( (error) => {
-            alert("ProjectData:FAILED:  " + JSON.stringify(error));
-
-            this.setState({btnLogin:"Login"});
-
-        })
-
+    this.handleClose()
   }
 
   handleSubmit(e) {
-      alert('A name was submitted: ' + this.state.value);
       e.preventDefault();
   }
+  
   render() {
+    // 
     return (
       <div>
-        <Button
-            id="btnLogin"
-            variant="outlined"
-            color="secondary"
-            onClick={this.handleClickOpen}
-        >{this.state.btnLogin}</Button>
-
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -125,4 +103,4 @@ UserDialog.propTypes = {
   username: PropTypes.string,
 }
 
-export default UserDialog;
+export default UserDialog

@@ -6,7 +6,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import Authenticate from './Authenticate.js';
+import Button from '@material-ui/core/Button';
+import {NavLink} from 'react-router-dom'
 
 const styles = {
   root: {
@@ -22,7 +23,7 @@ const styles = {
 };
 
 function MainAppBar(props) {
-  const { classes } = props;
+  const { classes, authedUser } = props;
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -33,7 +34,13 @@ function MainAppBar(props) {
           <Typography variant="h6" color="inherit" className={classes.grow}>
             Project
           </Typography>
-          <Authenticate />
+          <Button
+            component={NavLink}
+            to="/login"
+            id="btnLogin"
+            variant="outlined"
+            color="secondary"
+          >{authedUser ? authedUser : 'Login'}</Button>
         </Toolbar>
       </AppBar>
     </div>
@@ -42,6 +49,7 @@ function MainAppBar(props) {
 
 MainAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  authedUser: PropTypes.string.isRequired,
 };
 
-export default withStyles(styles)(MainAppBar);
+export default withStyles(styles)(MainAppBar)

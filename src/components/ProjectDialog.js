@@ -14,8 +14,6 @@ import PartPanel from './PartPanel';
 import NotePanel from './NotePanel';
 import TaskPanel from './TaskPanel';
 
-import axios from 'axios';
-
 const styles = {
   appBar: {
     position: 'relative',
@@ -32,14 +30,13 @@ function Transition(props) {
 class ProjectDialog extends React.Component {
   state = {
     open: false,
-    maintain: [],
-    expanded: 'panel-maintain',
+    expanded: 'panel-project',
     checked: [0]
   };
 
     componentDidMount() {
-        console.log("componentDidMount ID: " + this.props.maintainID)
-        this.getProject(this.props.maintainID);
+        console.log("ProjectDialog:tasks: " + this.props.tasks)
+        console.log("ProjectDialog:Project: " + this.props.match)
     }
 
   handleClickOpen = () => {
@@ -66,62 +63,10 @@ class ProjectDialog extends React.Component {
         checked: newChecked,
       });
   };
-  getProject(id) {
-      let query = `query{
-        maintain(id:${id}) {
-          name,
-          description,
-          complete,
-          part_nbr,
-          status,
-          todos {
-            id,
-            name,
-            parts{
-              id,
-              name
-            }
-          }
-        }
-      }`;
 
-      axios({
-          url: 'http://localhost:5000/toto/graphql',
-          method: 'post',
-          data: {
-              query: query
-          }
-      })
-      /*
-      axios.post("http://localhost:5000/graphql", { withCredentials: true,
-                                                    crossdomain: true,
-                                                    rejectUnauthorized: false,
-
-          })
-      */
-              .then( (response) => {
-                  console.log("get maintain response: " + JSON.stringify(response));
-                  console.log("response header: " + JSON.stringify(response.headers));
-                  console.log("******************************** set state maintain data ************************")
-                  console.log("response.data: " + JSON.stringify(response.data["data"]["maintain"]));
-                  console.log("*********************************************************************************");
-                  this.setState({maintain: response.data["data"]["maintain"]});
-                  // User logged in?
-                  if (this.state.maintain.status) {
-                      console.log("user status is : " + this.state.maintain.status);
-                      throw( new Error("User not logged in"));
-                  }
-                 console.log("STATE MAINTAIN: " + JSON.stringify(this.state.maintain));
-                  console.log("MAINTAIN OBJECT ===== " + JSON.stringify(this.state.maintain.data.maintain));
-                  console.log("MAINTAIN OBJECT NAME ===== " + JSON.stringify(this.state.maintain.data.maintain.name));
-              })
-              .catch( (err) => {
-                  console.log("err maintain response: " + JSON.stringify(err));
-              })
-      }
-      handleChange = name => (event,expanded) => {
+  handleChange = name => (event,expanded) => {
           this.setState({ [name]: event.target.value });
-          this.setState({expanded: expanded ? 'panel-maintain' : false});
+          this.setState({expanded: expanded ? 'panel-project' : false});
       };
 
   render() {
@@ -144,15 +89,15 @@ class ProjectDialog extends React.Component {
                 <CloseIcon />
               </IconButton>
               <Typography variant="h6" color="inherit" className={classes.flex}>
-                  {this.state.maintain["name"]}
+                  {"project name"}
               </Typography>
               <Button color="inherit" onClick={this.handleClose}>
                 save
               </Button>
             </Toolbar>
           </AppBar>
-            <ProjectPanel maintain={this.state.maintain}/>
-            <TaskPanel     tasks={this.state.maintain.todos}/>
+            <ProjectPanel project={{id:0,name:"TestProject",description:"Test Project Description"}} tasks={this.props.tasks}/>
+            <TaskPanel     tasks={this.state.tasks}/>
             <NotePanel />
             <PartPanel />
         </Dialog>

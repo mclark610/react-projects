@@ -4,8 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CommentIcon from '@material-ui/icons/Comment';
-import {ExpansionPanel,ExpansionPanelSummary,ExpansionPanelDetails} from '@material-ui/core';
 import {List, ListItem,ListItemText, ListItemSecondaryAction,Checkbox} from '@material-ui/core';
+import { Accordion,AccordionSummary, AccordionDetails  } from '@material-ui/core';
 
 const styles = {
   flex: {
@@ -48,15 +48,15 @@ class NotePanel extends React.Component {
         const { expanded } = this.state;
 
         return (
-            <ExpansionPanel
+            <Accordion
             square
             expanded={expanded === 'panel-notes'}
             onChange={this.handleChange('panel-notes')}
             >
-            <ExpansionPanelSummary>
+            <AccordionSummary>
             <Typography>Notes</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
+            </AccordionSummary>
+            <AccordionDetails>
             <List className={classes.root}>
                 {[0, 1, 2, 3].map(value => (
                   <ListItem key={value} role={undefined} dense button onClick={this.handleToggle(value)}>
@@ -74,8 +74,8 @@ class NotePanel extends React.Component {
                   </ListItem>
                 ))}
             </List>
-            </ExpansionPanelDetails>
-            </ExpansionPanel>
+            </AccordionDetails>
+            </Accordion>
         )} /*{ render }*/
     }
 
