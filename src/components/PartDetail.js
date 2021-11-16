@@ -101,7 +101,7 @@ class PartDetail extends React.Component {
             </FormGroup>
           </Grid>
           <Grid item className={classes.partDescription} xs={10} >
-            <TextField multiline variant="outlined" outlined maxRows={4} minRows={4} className={classes.partDescription} placeholder="Part Description"></TextField>
+            <TextField multiline variant="outlined" maxRows={4} minRows={4} className={classes.partDescription} placeholder="Part Description"></TextField>
           </Grid>
         </Grid>
         </section>
@@ -110,7 +110,7 @@ class PartDetail extends React.Component {
           <Grid item xs={8}>
             Notes
           </Grid>
-          <Grid item className={classes.partNotes} spacing={8} xs={10}>
+          <Grid item className={classes.partNotes} xs={10}>
             <TextField multiline variant="outlined" minRows={8} className={classes.partNotes} placeholder="Notes"></TextField>
           </Grid>
         </Grid>

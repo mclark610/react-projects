@@ -1,86 +1,72 @@
 import React, { Component } from 'react'
-import ProjectList from './ProjectList'
 import { PropTypes } from 'prop-types'
 
-import { Tabs, Tab, Box, FormControl, InputLabel, Select, MenuItem, Paper, Grid,FormHelperText } from '@material-ui/core'
+import { Tabs, Tab, FormControl, InputLabel, Select, MenuItem, Paper, Grid,FormHelperText } from '@material-ui/core'
+import PartList from './PartList'
+import TaskList from './TaskList'
 
-function TabPanel(props) {
-  const { children, value, index, ...rest } = props
+import {TabPanel,a11yProps} from './TabPanel'
 
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...rest}
-    >
-      {value === index && (
-        <Box p={2}>
-          {children}
-        </Box>
-      )}
-    </div>
-  )
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired
-}
-
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`
-  }
-}
+/**
+* @description This is the starting page.  
+* @constructor sets tab, parts and projects state
+* @param {array}  projects   - array of projects
+* @param {object} authedUser - The authorized userID that may answer the question
+* @param {array} parts       - array of parts
+* @param {array} tasks       - array of tasks
+*/
 
 class MainPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: 0,
-      activeProject: 0
+      selectedTab: 0,
     }
   }
 
-  handleChange = (event) => {
-    this.setState({ activeProject: event.target.value });
+  handleChange = (e) => {
+    this.setState({ activeProject: e.target.value });
+    this.props.handleProjectData(e.target.value)
+
+
+  };
+
+  handleTabClick = (e,val) => {
+    console.log("handleTabClick::event val: " + val);
+    
+    this.setState({ selectedTab: val });
   };
 
   render() {
-
     return (
       <div>
         <Grid
           container
-          spacing={0}
           direction="column"
           alignItems="center"
           justifyContent="center"
           sx={{ width: "80%" }}
         >
-          <Grid item xs={12} style={{minWidth: "70%",paddingTop:"3px"}} >
+          <Grid item xs={12} style={{minWidth: "70%"}} >
             <Paper elevation={3} style={{margin:"1rem"}}>
               <FormControl style={{ padding: 3, margin: 3, minWidth: "85%" }}>
                 <InputLabel id="projects-label">Active Project</InputLabel>
                 <Select
                   labelId="projects-label"
                   id="active-project"
-                  value={this.state.activeProject}
+                  value={this.props.projectID}
                   label="Active Project"
                   onChange={this.handleChange}
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={0}>-- None --</MenuItem>
-                  <MenuItem value={1}>Ranger</MenuItem>
-                  <MenuItem value={2}>Elantra</MenuItem>
-                  <MenuItem value={3}>Generator</MenuItem>
+                  <MenuItem value={-1}><em>-- Not Set --</em></MenuItem>
+
+                  {this.props.projects.map( (project) => (
+                    <MenuItem key={project.id} value={project.id}>
+                      {project.name}
+                    </MenuItem>
+                  ))
+                  }
+
                 </Select>
                 <FormHelperText>Choose a project or none.</FormHelperText>
               </FormControl>
@@ -89,23 +75,17 @@ class MainPage extends Component {
 
           <Grid item xs={12} style={{minWidth: "70%"}} >
           <Paper elevation={3} style={{margin:"1rem"}}>
-            <Tabs indicatorColor="primary" value={this.state.value} onChange={this.handleChange} aria-label="simple tabs example">
-              <Tab label="Projects" {...a11yProps(0)} />
-              <Tab label="Tasks"    {...a11yProps(1)} />
-              <Tab label="Todos"    {...a11yProps(2)} />
-              <Tab label="Parts"    {...a11yProps(3)} />
+            <Tabs value={this.state.selectedTab} onChange={this.handleTabClick} aria-label="simple tabs example">
+              {/* <Tab label="Projects" {...a11yProps(0)} /> */}
+              <Tab label="Tasks"    {...a11yProps(0)} />
+              <Tab label="Parts"    {...a11yProps(1)} />
             </Tabs>
-            <TabPanel value={this.state.value} index={0}>
-              <ProjectList projects={this.props.projects} />
+            <h2>state.value:{this.state.selectedTab}</h2>
+            <TabPanel value={this.state.selectedTab} index={0}>
+              <TaskList tasks={this.props.tasks}/>
             </TabPanel>
-            <TabPanel value={this.state.value} index={1}>
-              Tasks
-            </TabPanel>
-            <TabPanel value={this.state.value} index={2}>
-              Two
-            </TabPanel>
-            <TabPanel value={this.state.value} index={3}>
-              Three
+            <TabPanel value={this.state.selectedTab} index={1}>
+              <PartList parts={this.props.parts} />
             </TabPanel>
           </Paper>
         </Grid>
@@ -114,6 +94,12 @@ class MainPage extends Component {
       </div>
     )
   }
+}
+
+MainPage.propTypes = {
+  authedUser: PropTypes.any.isRequired,
+  parts: PropTypes.array.isRequired,
+  tasks: PropTypes.array.isRequired,
 }
 
 export default MainPage;

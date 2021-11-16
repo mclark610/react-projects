@@ -14,7 +14,7 @@ const styles = theme => ({
     },
   },
 });
-class ProjectListItem extends Component {
+class TaskListItem extends Component {
   state = {
     open: false,
     selectedValue: false
@@ -22,23 +22,24 @@ class ProjectListItem extends Component {
 
   onDblClick = (e) => {
     console.log("-------------------------------------------")
-    console.log("ProjectListItem::onDblClick::doubleclick called! ")
-    console.log("current projectid: " + this.props.currentProject.id)
-    // Go to ProjectDetail
+    console.log("TaskListItem::onDblClick::doubleclick called! ")
+    console.log("current taskId: " + this.props.currentTask.id)
+    // Go to TaskDetail
     this.props.history.push({
-      pathname: `/project/${this.props.currentProject.id}`,
-      currentProject: this.props.currentProject
+      pathname: `/task/${this.props.currentTask.id}`,
+      currentTask: this.props.currentTask
     })
   }
   componentDidMount() {
     console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-    console.log("ProjectListItem::componentDidMount:Props: " + JSON.stringify(this.props))
+    console.log("TaskListItem::componentDidMount:Props: " + JSON.stringify(this.props.currentTask))
     console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+
   }
 
   render() {
-    const project = this.props.currentProject
-    console.log("ProjectListItem:render:project: " + JSON.stringify(project))
+    const task = this.props.currentTask
+    console.log("TaskListItem:render:task: " + JSON.stringify(task))
     return (
       <ListItem key={this.props.key} alignItems="flex-start" onDoubleClick={this.onDblClick}  button sx={{color: '#F0A',minWidth: '100%', maxWidth:'100px'}}
       sx={{
@@ -48,20 +49,20 @@ class ProjectListItem extends Component {
           width:"500",
       }}
 
-        key={project.id}
+        key={task.id}
       >
         
           {
-            project && (project.avatarURL ? 
+            task && (task.avatarURL ? 
                 <ListItemAvatar>
-                  <Avatar src={project.avatarURL} />
+                  <Avatar src={task.avatarURL} />
                 </ListItemAvatar>
               : 
                 null)
           }
 
         <ListItemText
-          primary={project.name}
+          primary={task.name}
           secondary={
             <React.Fragment>
               <Typography
@@ -70,16 +71,16 @@ class ProjectListItem extends Component {
                 variant="body2"
                 color="textPrimary"
               >
-                {project.description ? project.description : ''}
+                {task.description ? task.description : ''}
               </Typography>
             </React.Fragment>
           }
         >
-          {project.name}
+          {task.name}
         </ListItemText>
       </ListItem>
     )
   }
 }
 
-export default withRouter(ProjectListItem);
+export default withRouter(TaskListItem);

@@ -5,6 +5,7 @@ import { TextField } from '@material-ui/core';
 import { withRouter } from 'react-router-dom'
 import { Grid, FormGroup, FormControlLabel, Switch } from '@material-ui/core';
 import PartList from './PartList';
+import TaskList from './TaskList';
 
 const styles = theme => ({
   appBar: {
@@ -14,33 +15,38 @@ const styles = theme => ({
     flex: 1,
   },
   taskName: {
-    backgroundColor: "green",
-    width:"80%",
-    paddingLeft: "20px",
+    width: "80%",
+    paddingTop: "20px",
+    marginBottom: "4px",
     marginLeft: "20px",
-    textAlign:"left",
+    textAlign: "left",
   },
+  taskActive: {
+    marginTop: "20px",
+    paddingTop: "20px",
+    marginBottom: "4px",
+    textAlign: "left",
+  },
+
   taskDescription: {
-    backgroundColor: "yellow",
-    width:"80%",
-    paddingLeft: "20px",
+    width: "80%",
     marginLeft: "20px",
-    textAlign:"left",
-    
+    textAlign: "left",
   },
   taskNotes: {
-    backgroundColor: "red",
-    width:"80%",
-    paddingLeft: "20px",
+    width: "80%",
+    
     marginLeft: "20px",
-    textAlign:"left",
+    textAlign: "left",
   },
-  taskParts: {
-    backgroundColor: "#ffdcf2",
-    width:"80%",
+  taskPartList: {
+    width: "80%",
+
     paddingLeft: "20px",
+    paddingTop: "20px",
     marginLeft: "20px",
-    textAlign:"left",
+
+    textAlign: "left",
   },
 });
 
@@ -89,54 +95,34 @@ class TaskDetail extends React.Component {
   render() {
     const { classes, parts } = this.props;
     return (
-      <div>
-      <section>
-        <h2>This is where the task detail lives</h2>
-        <Grid container  spacing={2}>
-          <Grid  className={classes.taskName} item xs={8} >
-            <TextField className={classes.taskName} variant="outlined" placeholder="Task Name" />
-          </Grid>
-          <Grid item xs={1}>
-            <FormGroup>
-              <FormControlLabel control={<Switch defaultChecked />} label="Active" />
-            </FormGroup>
-          </Grid>
-          <Grid item className={classes.taskDescription} xs={10} >
-            <TextField multiline variant="outlined" outlined maxRows={4} minRows={4} className={classes.taskDescription} placeholder="Task Description"></TextField>
-          </Grid>
+      <Grid container spacing={2} >
+        <Grid className={classes.taskName} item xs={6} >
+          <TextField className={classes.taskName} variant="outlined" placeholder="Task Name" />
         </Grid>
-        </section>
-        <section>
-        <Grid container  spacing={2}>
+        <Grid item className={classes.taskActive} xs={2}>
+          <FormGroup>
+            <FormControlLabel control={<Switch defaultChecked />} label="Active" />
+          </FormGroup>
+        </Grid>
+        <Grid item className={classes.taskDescription} xs={10} >
+          <TextField multiline variant="outlined" maxRows={4} minRows={4} className={classes.taskDescription} placeholder="Task Description"></TextField>
+        </Grid>
+
           <Grid item xs={8}>
             Notes
           </Grid>
-          <Grid item className={classes.taskNotes} spacing={8} xs={10}>
+          <Grid item className={classes.taskNotes} xs={10}>
             <TextField multiline variant="outlined" minRows={8} className={classes.taskNotes} placeholder="Notes"></TextField>
           </Grid>
-        </Grid>
-        </section>
 
-        <section>
-        <Grid container  spacing={2}>
           <Grid item xs={8}>
             Part List
           </Grid>
-          <Grid item className={classes.taskParts} spacing={8} xs={10}>
-            <PartList parts={parts}/>
+          <Grid item className={classes.taskPartList} xs={12}>
+            <PartList parts={this.props.parts} />
           </Grid>
-        </Grid>
-        </section>
 
-        <ul>
-          <li><strike>Task Name</strike></li>
-          <li><strike>Task Description</strike></li>
-          <li><strike>Open Closed</strike></li>
-          <li><strike>Notes</strike></li>
-          <li>Parts List</li>
-        </ul>
-
-      </div>
+      </Grid>
     );
   }
 }

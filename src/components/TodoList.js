@@ -6,7 +6,7 @@ import { Container } from '@material-ui/core';
 import { Paper } from '@material-ui/core';
 import { PropTypes } from 'prop-types';
 import {List,Box} from '@material-ui/core';
-import ProjectListItem from './ProjectListItem';
+import TodoListItem from './TodoListItem';
 
 const styles = theme => ({
   container: {
@@ -19,7 +19,7 @@ const styles = theme => ({
   }
 });
 
-class ProjectList extends Component {
+class TodoList extends Component {
 
   state = {
     searchFor: '',
@@ -29,24 +29,25 @@ class ProjectList extends Component {
   }
 
   render() {
-    const { classes, projects } = this.props;
+    const { classes, todos,tasks } = this.props;
 
     return(
-    projects && projects.length ? (
+    todos && todos.length ? (
       <Fragment>
       <TextField style={{ padding: 22 }}
         id="searchInput"
-        placeholder="Maintenance"
+        placeholder="Todo"
         margin="normal"
         onChange={this.onSearchInputChange}
       />
-      {console.log("************** ProjectList::render::return ")}
+      {console.log("************** TodoList::render::return ")}
       <Box width="100%" sx={{ border: '2px solid blue'}}>
       <List>
 
-        {this.props.projects.map((currentProject,index) => (
-            <ProjectListItem  key={index}      
-              currentProject={currentProject} />
+        {this.props.todos.map((currentTodo,index) => (
+            <TodoListItem  key={index}      
+              currentTodo={tasks[currentTodo.taskId]}
+            />
         ))}
         </List>
         </Box>
@@ -55,7 +56,7 @@ class ProjectList extends Component {
     :
     (
       <Container maxWidth="lg">
-      {console.log("???????????? ProjectList::render::return 2")}
+      {console.log("???????????? TodoList::render::return 2")}
       <Paper elevation={1} className={classes.container}>
         {this.state.loginStatus}<br />
       </Paper>
@@ -65,8 +66,8 @@ class ProjectList extends Component {
   }
 }
 
-ProjectList.propTypes = {
-  projects: PropTypes.array
+TodoList.propTypes = {
+  todos: PropTypes.array
 }
 
-export default withStyles(styles)(ProjectList);
+export default withStyles(styles)(TodoList);

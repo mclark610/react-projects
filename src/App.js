@@ -11,154 +11,134 @@ import ProjectDetail from './components/ProjectDetail'
 import TaskDetail from './components/TaskDetail'
 import PartDetail from './components/PartDetail'
 
-const tmpUsers = [
-  {
-    id: 0,
-    name: "admin",
-    password: "test",
-  }
-]
-const tmpTodos = [
-  {
-    id: 0,
-    taskId: 0
-  },
-  {
-    id: 1,
-    taskId: 1
-  },
-  {
-    id: 2,
-    taskId: 2
-  }
-]
-const tmpTasks = [
-  {
-    id: 0,
-    name: "Change Oil",
-    parts: [0, 2]
-  },
-  {
-    id: 1,
-    name: "Change Air filter",
-    description: "Change air filter",
-    parts: [15]
-  },
-  {
-    id: 2,
-    name: "Wash",
-    description: "make it shine"
-  },
-  {
-    id: 3,
-    name: "clean brake calipers",
-    description: "change out calipers"
-  },
-  {
-    id: 4,
-    name: "vacuum out the interor",
-    description: "get the dirt out",
-  }
-]
-const tmpParts = [
-  {
-    id: 0,
-    name: "Oil: Mobil 1 5-20w",
-    description: "pretty good oil",
-  },
-  {
-    id: 1,
-    name: "Oil: Mobil 1 10-30w",
-    description: "none",
-  },
-  {
-    id: 2,
-    name: "Oil Filter: Fram PH3600",
-    description: "Oil Filter",
-  },
-  {
-    id: 13,
-    name: "K&H Oil Filter",
-    description: " MC oil filter.",
-  },
-  {
-    id: 15,
-    name: "Motorcraft Air filter",
-    description: "This is an air filter",
-  },
+import { filterProjectData } from './components/FilterProjectData'
+import { tmpTasks, tmpParts, tmpProjects } from './data/mockData'
 
-
-]
-const tmpProjects = [
-  {
-    id: 0,
-    name: "Ford Ranger",
-    class: "Vehicle",
-    description: "Very cool litle truck!",
-    tasks: [0],
-    todo: [
-    ],
-  },
-  {
-    id: 1,
-    name: "Elantra",
-    class: "Vehicle",
-    description: "Very sporty fun car"
-  },
-  {
-    id: 2,
-    name: "Tiller",
-    description: "Oldish tiller"
-  }
-]
-
-
-const App = () => {
-  const [authedUser, setAuthedUser] = useState(tmpUsers[0].name)
-  const [users, setUser] = useState(tmpUsers)
-  const [projects, setProject] = useState(tmpProjects)
-  const [tasks, setTask] = useState(tmpTasks)
-  const [todos, setTodo] = useState(tmpTodos)
-  const [parts, setPart] = useState(tmpParts)
-
-  const handleSetAuthedUser = (authedUser) => {
-    setAuthedUser(authedUser)
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      authedUser: "Admin",
+      projects: tmpProjects,
+      tasks: tmpTasks,
+      parts: tmpParts,
+      projectID: -1
+    }
   }
 
-  const handleSetProject = (project) => {
-    setProject(project)
+  handleSetAuthedUser = (authedUser) => {
+    //setAuthedUser(authedUser)
   }
-  console.log("App::tasks: " + tasks)
 
-  return (
-    <div className="App">
-      <Router>
-        <MainAppBar authedUser={authedUser} setAuthedUser={handleSetAuthedUser} />
-        <Switch>
-          <Route path="/login">
-            <Login authedUser={authedUser} setAuthedUser={handleSetAuthedUser} />
-          </Route>
-          <PrivateRoute path="/" exact authedUser={authedUser}>
-            <MainPage authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} todos={todos} />
-          </PrivateRoute>
-          <PrivateRoute path="/project/:id" exact authedUser={authedUser}>
-            <ProjectDetail authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} todos={todos} />
-          </PrivateRoute>
-          <PrivateRoute path="/task/:id" exact authedUser={authedUser}>
-            <TaskDetail authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} todos={todos} />
-          </PrivateRoute>
-          <PrivateRoute path="/part/:id" exact authedUser={authedUser}>
-            <PartDetail authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} todos={todos} />
-          </PrivateRoute>
+  handleProjectData = (projectID) => {
+    // display only tasks associated with project if project id is not undefined
+    // project: -1 show all projects
+    const projects = this.state.projects;
 
-          <Route path="/">
-            <InvalidPage />
-          </Route>
+    console.log("----------------------------------------------------")
+    console.log("handleProjectData:assigning projectID " + projectID)
+    console.log("----------------------------------------------------")
+    console.log("pppppppppppppppppppppppppppppppppppppppppppppppppppp")
+    console.log("handleProjectData:projects:: " + JSON.stringify(projects))
+    console.log("pppppppppppppppppppppppppppppppppppppppppppppppppppp")
 
-        </Switch>
-      </Router>
-    </div>
-  );
+    if (projectID !== -1) {
+      console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+      console.log("handleProjectData::project:: " + JSON.stringify(projects[projectID]))
+      console.log("handleProjectData::tasks:: " + JSON.stringify(projects[projectID].tasks))
+      console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+      let projectData = filterProjectData(projectID, tmpParts, tmpProjects, tmpTasks)
+      this.setState({
+        tasks: projectData.tasks,
+        parts: projectData.parts,
+        projectID: projectID,
+      })
+    }
+    else {
+      this.setState({
+        tasks: tmpTasks,
+        parts: tmpParts
+      })
+    }
+
+    this.setState({ projectID: projectID })
+
+  }
+
+  filterProjectData = (projectID) => {
+    let projectTasks = [];
+    let projectParts = [];
+    const parts = this.state.parts;
+    const projects = this.state.projects;
+    const tasks = this.state.tasks;
+    let plist = Set();
+
+    console.log("filterProjectData::parts list is : " + JSON.stringify(parts))
+    if (projectID > -1) {
+      // build tasks list
+      projects[projectID].tasks && projects[projectID].tasks.map(taskID => {
+        console.log("filterProjectData::taskID: " + taskID)
+        projectTasks.push(tasks.filter((task) => task.id === taskID));
+
+        //build parts list - ignore duplicates for now
+        tasks[taskID].parts && tasks[taskID].parts.map(partID => {
+          console.log(`filterProjectData:tasks[${taskID}].parts ID: ${partID}`)
+          projectParts.push(parts.filter((part) => part.id === partID));
+        })
+      })
+      /*
+      setTasks(projectTasks);
+      setParts(projectParts);
+      */
+      this.setState({
+        tasks: [...projectTasks],
+        parts: projectParts
+      })
+      console.log("filterProjectData::state.parts: " + JSON.stringify(parts))
+    }
+
+    console.log("filterProjectData::projectTasks : " + JSON.stringify(projectTasks))
+    console.log("filterProjectData::projectParts : " + JSON.stringify(projectParts))
+    console.log("filterProjectData::state.parts 2: " + JSON.stringify(parts))
+  }
+
+  render() {
+    const parts = this.state.parts;
+    const projects = this.state.projects;
+    const tasks = this.state.tasks;
+    const authedUser = this.state.authedUser;
+
+    return (
+      /* filter data based on selected active project id*/
+      <div className="App">
+        <Router>
+          <MainAppBar authedUser={this.state.authedUser} setAuthedUser={this.handleSetAuthedUser} />
+          <Switch>
+            <Route path="/login">
+              <Login authedUser={authedUser} setAuthedUser={this.handleSetAuthedUser} />
+            </Route>
+            <PrivateRoute path="/" exact authedUser={authedUser}>
+              <MainPage authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} projectID={this.state.projectID} handleProjectData={this.handleProjectData} />
+            </PrivateRoute>
+            <PrivateRoute path="/project/:id" exact authedUser={authedUser}>
+              <ProjectDetail authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} />
+            </PrivateRoute>
+            <PrivateRoute path="/task/:id" exact authedUser={authedUser}>
+              <TaskDetail authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} />
+            </PrivateRoute>
+            <PrivateRoute path="/part/:id" exact authedUser={authedUser}>
+              <PartDetail authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} />
+            </PrivateRoute>
+
+            <Route path="/">
+              <InvalidPage />
+            </Route>
+
+          </Switch>
+        </Router>
+      </div>
+    );
+  }
 }
 
 export default App
