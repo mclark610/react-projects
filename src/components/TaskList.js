@@ -1,21 +1,30 @@
 import React, { Component, Fragment } from 'react'
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField'
-import { Container } from '@material-ui/core';
 import { Paper } from '@material-ui/core';
 import { PropTypes } from 'prop-types';
-import { List, Box } from '@material-ui/core';
+import { Grid, List, Box } from '@material-ui/core';
 import TaskListItem from './TaskListItem';
 
 const styles = theme => ({
-  container: {
-    height: "80%",
-    width: "80%",
-    margin: "1rem",
-    textAlign: 'center',
-    display: 'inline-block',
+  taskList: {
+    width: "100%",
+    paddingTop: "20px",
+    marginBottom: "4px",
+    paddingLeft: "20px",
+    paddingRight: "20px",
+    textAlign: "left",
+  },
+  searchTaskList: {
 
+    width: "80%",
+    paddingTop: "20px",
+    marginBottom: "4px",
+    marginLeft: "20px",
+
+    textAlign: "left",
   }
+
 });
 
 class TaskList extends Component {
@@ -35,36 +44,39 @@ class TaskList extends Component {
     this.props.tasks.map((currentTask, index) => (
       console.log("currentTask: " + JSON.stringify(currentTask))
     ))
-    
+
     return (
       tasks && tasks.length ? (
-        <Fragment>
-        {console.log("inside fragment")}
-          <TextField style={{ padding: 22 }}
-            id="searchInput"
-            placeholder="Search for Task"
-            margin="normal"
-            onChange={this.onSearchInputChange}
-          />
+        <div>
+          <Grid item xs={4} className={classes.searchTaskList}>
+            <TextField
+              id="searchTaskList"
+              placeholder="Task"
+              margin="normal"
+              onChange={this.onSearchInputChange}
+            />
+          </Grid>
+          <Grid item className={classes.taskList}>
 
-          <Box width="100%" sx={{ border: '2px solid blue' }}>
-            <List>
-              {tasks.map((currentTask, index) => (
-                <TaskListItem key={index}
-                  currentTask={currentTask} />
-              ))}
-            </List>
-          </Box>
-        </Fragment>
+            <Box width="100%" sx={{ border: '2px solid blue' }}>
+              <List>
+                {tasks.map((currentTask, index) => (
+                  <TaskListItem key={index}
+                    currentTask={currentTask} />
+                ))}
+              </List>
+            </Box>
+          </Grid>
+        </div>
       )
         :
         (
-          <Container maxWidth="lg">
+          <Grid container>
             {console.log("???????????? TaskList::render::return 2")}
             <Paper elevation={1} className={classes.container}>
               {this.state.loginStatus}<br />
             </Paper>
-          </Container>
+          </Grid>
         )
     )
   }

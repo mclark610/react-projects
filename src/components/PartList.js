@@ -11,10 +11,10 @@ import { List, Box, Grid } from '@material-ui/core';
 const styles = theme => ({
   taskPartList: {
 
-    width: "80%",
     paddingTop: "20px",
     marginBottom: "4px",
-    marginLeft: "20px",
+    paddingLeft: "20px",
+    paddingRight: "20px",
     textAlign: "left",
   },
   searchPartList: {
@@ -52,7 +52,7 @@ class PartList extends Component {
             />
           </Grid>
 
-          <Grid item xs={8} className={classes.taskPartList}>
+          <Grid item className={classes.taskPartList}>
             {console.log("************** PartList::render::return ")}
             <Box width="100%" sx={{ border: '2px solid blue' }}>
               <List >

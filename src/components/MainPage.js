@@ -45,7 +45,7 @@ class MainPage extends Component {
           direction="column"
           alignItems="center"
           justifyContent="center"
-          sx={{ width: "80%" }}
+          sx={{ width: "100%" }}
         >
           <Grid item xs={12} style={{minWidth: "70%"}} >
             <Paper elevation={3} style={{margin:"1rem"}}>
@@ -73,7 +73,7 @@ class MainPage extends Component {
             </Paper>
           </Grid>
 
-          <Grid item xs={12} style={{minWidth: "70%"}} >
+          <Grid item xs={12} style={{minWidth: "70%",border: '2px solid green'}} >
           <Paper elevation={3} style={{margin:"1rem"}}>
             <Tabs value={this.state.selectedTab} onChange={this.handleTabClick} aria-label="simple tabs example">
               {/* <Tab label="Projects" {...a11yProps(0)} /> */}
@@ -82,7 +82,7 @@ class MainPage extends Component {
             </Tabs>
             <h2>state.value:{this.state.selectedTab}</h2>
             <TabPanel value={this.state.selectedTab} index={0}>
-              <TaskList tasks={this.props.tasks}/>
+              <TaskList tasks={this.props.tasks} />
             </TabPanel>
             <TabPanel value={this.state.selectedTab} index={1}>
               <PartList parts={this.props.parts} />

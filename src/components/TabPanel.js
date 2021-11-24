@@ -13,7 +13,7 @@ export function TabPanel(props) {
       {...rest}
     >
       {value === index && (
-        <Box p={2}>
+        <Box p={1}>
           {children}
         </Box>
       )}
