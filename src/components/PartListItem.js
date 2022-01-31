@@ -5,15 +5,15 @@ import Typography from '@material-ui/core/Typography'
 
 import { Avatar, ListItemText } from '@material-ui/core'
 import { withRouter } from 'react-router-dom'
+import { PropTypes } from 'prop-types';
 
-const styles = theme => ({
-  tr: {
-    background: "#f1f1f1",
-    '&:hover': {
-       background: "#f00",
-    },
-  },
-});
+/**
+ * @description Draws the Part list item.
+ * @param {array} partList
+ * @param {number} currentProject
+ * @param {object} currentPart
+ */
+
 class PartListItem extends Component {
   state = {
     open: false,
@@ -23,34 +23,28 @@ class PartListItem extends Component {
   onDblClick = (e) => {
     console.log("-------------------------------------------")
     console.log("PartListItem::onDblClick::doubleclick called! ")
-    console.log("current partId: " + this.props.currentPart.id)
-    // Go to TaskDetail
+    console.log("PartListItem::onDblClick::current partId: " + this.props.currentPart.id)
+
+    // Go to PartDetail
     this.props.history.push({
       pathname: `/part/${this.props.currentPart.id}`,
       currentPart: this.props.currentPart
     })
   }
+
   componentDidMount() {
-    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
     console.log("PartListItem::componentDidMount:Props: " + JSON.stringify(this.props))
-    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
   }
 
   render() {
     const part = this.props.currentPart
-    console.log("PartListItem:render:part: " + JSON.stringify(part))
-    return (
-      <ListItem key={this.props.key} alignItems="flex-start" onDoubleClick={this.onDblClick}  button sx={{color: '#F0A',minWidth: '100%', maxWidth:'100px'}}
-      sx={{
-          '&:hover': {
-            background: "#f00",
-          },
-          width:"500",
-      }}
+    const txtColor = this.props.textColor
 
-        key={part.id}
-      >
-        
+    console.log("PartListItem:render:part: " + JSON.stringify(part))
+    console.log("PartListItem:render:color: " + txtColor);
+    return (
+      <ListItem key={this.props.key} alignItems="flex-start" onDoubleClick={this.onDblClick}  button sx={{color: '#FFA',minWidth: '80%', maxWidth:'50px'}}>
+     
           {
             part && (part.avatarURL ? 
                 <ListItemAvatar>
@@ -60,15 +54,22 @@ class PartListItem extends Component {
                 null)
           }
 
-        <ListItemText
-          primary={part.name}
+        <ListItemText 
+          
+          primary={
+            <Typography
+              style={{color:txtColor }}
+            >
+            {part.name}
+            </Typography>
+          }
+          
           secondary={
             <React.Fragment>
               <Typography
-                sx={{ display: 'inline' }}
+                style={{color:txtColor}}
                 component="span"
                 variant="body2"
-                color="textPrimary"
               >
                 {part.description ? part.description : ''}
               </Typography>
@@ -82,4 +83,10 @@ class PartListItem extends Component {
   }
 }
 
+PartListItem.propTypes = {
+  key: PropTypes.number,
+  partlist: PropTypes.object,
+  activeProject: PropTypes.object.isRequired,
+  textColor: PropTypes.string
+}
 export default withRouter(PartListItem);

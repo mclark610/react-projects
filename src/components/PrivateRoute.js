@@ -12,9 +12,9 @@ import { Route, Redirect, withRouter } from 'react-router-dom'
 */
 
 function PrivateRoute({ children, ...rest }) {
-  console.log("authedUser is : " + rest.authedUser)
-  console.log("autheduser null?: " + rest.authedUser===null? "is Null" : "isnt Null")
-  console.log("authedUser: " + rest.authedUser !== "" ? "children" : "redirect")
+  console.log("PrivateRoute::authedUser is : " + rest.authedUser)
+  console.log("PrivateRoute::autheduser  " + (rest.authedUser === null ? "is Null" : "isnt Null"))
+  console.log("PrivateRoute::authedUser  " + (rest.authedUser !== "" ? "children" : "redirect"))
 
   return (
     <Route {...rest} render={() => {

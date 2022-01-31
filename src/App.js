@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
 import MainPage from './components/MainPage';
 import MainAppBar from './components/MainAppBar';
@@ -10,54 +10,76 @@ import InvalidPage from './components/InvalidPage'
 import ProjectDetail from './components/ProjectDetail'
 import TaskDetail from './components/TaskDetail'
 import PartDetail from './components/PartDetail'
+import PartStore from './components/PartStore'
+import AddTask from './components/AddTask'
 
 import { filterProjectData } from './components/FilterProjectData'
-import { tmpTasks, tmpParts, tmpProjects } from './data/mockData'
+import * as mockData from './data/mockData'
+
+/**
+ * @description Beginning of application. Please see README.md
+ * @constructor
+ */
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       authedUser: "Admin",
-      projects: tmpProjects,
-      tasks: tmpTasks,
-      parts: tmpParts,
-      projectID: -1
+      projects: mockData.tmpProjects,
+      tasks: mockData.tmpTasks,
+      parts: mockData.tmpParts,
+      activeProject: {id:-1,name: "Project"},
+      allParts: mockData.tmpParts
     }
   }
 
-  handleSetAuthedUser = (authedUser) => {
-    //setAuthedUser(authedUser)
-  }
-
+  /**
+   * @function handleProjectData
+   * @param {projectID} active Project ID.  
+   * @description sets up data to display data for project (id) or display all
+   *              data if no project (-1) is selected
+   */
+  
   handleProjectData = (projectID) => {
-    // display only tasks associated with project if project id is not undefined
-    // project: -1 show all projects
     const projects = this.state.projects;
 
     console.log("----------------------------------------------------")
-    console.log("handleProjectData:assigning projectID " + projectID)
+    console.log("App::handleProjectData:assigning projectID " + projectID)
     console.log("----------------------------------------------------")
-    console.log("pppppppppppppppppppppppppppppppppppppppppppppppppppp")
-    console.log("handleProjectData:projects:: " + JSON.stringify(projects))
-    console.log("pppppppppppppppppppppppppppppppppppppppppppppppppppp")
+    console.log("App::handleProjectData:projects: " + JSON.stringify(projects))
 
-    if (projectID !== -1) {
-      console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-      console.log("handleProjectData::project:: " + JSON.stringify(projects[projectID]))
-      console.log("handleProjectData::tasks:: " + JSON.stringify(projects[projectID].tasks))
-      console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-      let projectData = filterProjectData(projectID, tmpParts, tmpProjects, tmpTasks)
+    if (projectID > -1) {
+      console.log("App::handleProjectData::project:: " + JSON.stringify(projects[projectID]))
+      console.log("App::handleProjectData::tasks:: " + JSON.stringify(projects[projectID].tasks))
+
+      console.log("App::handleProjectData:current activeProject:: " + JSON.stringify(this.state.activeProject))
+      console.log("App::handleProjectData:current tasks: " + JSON.stringify(this.state.tasks))
+      console.log("App::handleProjectData:current parts: " + JSON.stringify(this.state.parts))
+
+      
+      const activeProject = filterProjectData(projectID, mockData.tmpParts, mockData.tmpProjects, mockData.tmpTasks)
+      console.log("App::handleProjectData:activeProject:: " + JSON.stringify(activeProject))
+      console.log("App::handleProjectData:tasks: " + JSON.stringify(activeProject.tasks))
+      console.log("App::handleProjectData:parts: " + JSON.stringify(activeProject.parts))
+
+
       this.setState({
-        tasks: projectData.tasks,
-        parts: projectData.parts,
-        projectID: projectID,
+        activeProject: activeProject,
+        tasks: activeProject.tasks,
+        parts: activeProject.parts
       })
     }
     else {
       this.setState({
-        tasks: tmpTasks,
-        parts: tmpParts
+        tasks: mockData.tmpTasks,
+        parts: mockData.tmpParts,
+        activeProject: {
+          id:-1,
+          name: "DefaultProjects"
+        },
+        allParts: mockData.tmpParts,
+
       })
     }
 
@@ -65,69 +87,62 @@ class App extends React.Component {
 
   }
 
-  filterProjectData = (projectID) => {
-    let projectTasks = [];
-    let projectParts = [];
-    const parts = this.state.parts;
-    const projects = this.state.projects;
-    const tasks = this.state.tasks;
-    let plist = Set();
-
-    console.log("filterProjectData::parts list is : " + JSON.stringify(parts))
-    if (projectID > -1) {
-      // build tasks list
-      projects[projectID].tasks && projects[projectID].tasks.map(taskID => {
-        console.log("filterProjectData::taskID: " + taskID)
-        projectTasks.push(tasks.filter((task) => task.id === taskID));
-
-        //build parts list - ignore duplicates for now
-        tasks[taskID].parts && tasks[taskID].parts.map(partID => {
-          console.log(`filterProjectData:tasks[${taskID}].parts ID: ${partID}`)
-          projectParts.push(parts.filter((part) => part.id === partID));
-        })
-      })
-      /*
-      setTasks(projectTasks);
-      setParts(projectParts);
-      */
-      this.setState({
-        tasks: [...projectTasks],
-        parts: projectParts
-      })
-      console.log("filterProjectData::state.parts: " + JSON.stringify(parts))
-    }
-
-    console.log("filterProjectData::projectTasks : " + JSON.stringify(projectTasks))
-    console.log("filterProjectData::projectParts : " + JSON.stringify(projectParts))
-    console.log("filterProjectData::state.parts 2: " + JSON.stringify(parts))
+  handleSetAuthedUser = (authedUser) => {
+    this.setState({authedUser: authedUser});
   }
+  handleAddTask = (activeProject,tasks, parts) => {
+    this.setState({
+      activeProject,
+      tasks,
+      parts
+    })
+  }
+    /**
+   * @function handleTaskEditor
+   * @param {projectID} projectID to associate with current task.  
+   * @description Call taskDetail to add task or edit task. 
+   */
+
+  handleTaskEditor = (task) => {
+
+  }
+
 
   render() {
     const parts = this.state.parts;
     const projects = this.state.projects;
     const tasks = this.state.tasks;
     const authedUser = this.state.authedUser;
-
+    const projectID = this.state.projectID;
+    const activeProject = this.state.activeProject;
+    const allParts = this.state.allParts;
+    const projectParts = this.state.projectParts;
     return (
-      /* filter data based on selected active project id*/
       <div className="App">
         <Router>
-          <MainAppBar authedUser={this.state.authedUser} setAuthedUser={this.handleSetAuthedUser} />
+          <MainAppBar authedUser={this.state.authedUser} setAuthedUser={this.handleSetAuthedUser} activeProject={this.state.activeProject}/>
           <Switch>
             <Route path="/login">
               <Login authedUser={authedUser} setAuthedUser={this.handleSetAuthedUser} />
             </Route>
             <PrivateRoute path="/" exact authedUser={authedUser}>
-              <MainPage authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} projectID={this.state.projectID} handleProjectData={this.handleProjectData} />
+              <MainPage authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} activeProject={activeProject} handleProjectData={this.handleProjectData} />
             </PrivateRoute>
             <PrivateRoute path="/project/:id" exact authedUser={authedUser}>
-              <ProjectDetail authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} />
+              <ProjectDetail authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} projectID={projectID} activeProject={activeProject}/>
             </PrivateRoute>
             <PrivateRoute path="/task/:id" exact authedUser={authedUser}>
-              <TaskDetail authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} />
+              <TaskDetail authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} projectID={projectID} activeProject={activeProject}/>
             </PrivateRoute>
+            <PrivateRoute path="/addtask" exact authedUser={authedUser}>
+              <AddTask authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} projectID={projectID} activeProject={activeProject}/>
+            </PrivateRoute>
+
             <PrivateRoute path="/part/:id" exact authedUser={authedUser}>
-              <PartDetail authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} />
+              <PartDetail authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} projectID={projectID} activeProject={activeProject}/>
+            </PrivateRoute>
+            <PrivateRoute path="/partstore" exact authedUser={authedUser}>
+              <PartStore authedUser={authedUser} parts={allParts} projects={projects} tasks={tasks} projectID={projectID} activeProject={activeProject}/>
             </PrivateRoute>
 
             <Route path="/">

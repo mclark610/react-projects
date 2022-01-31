@@ -22,8 +22,21 @@ const styles = {
   },
 };
 
+/**
+ * @function MainAppBar
+ * @description Beginning of application. Please see README.md
+ * @param {object}  "classes":{
+                      "root":"MainAppBar-root-108",
+                      "grow":"MainAppBar-grow-109",
+                      "menuButton":"MainAppBar-menuButton-110"},
+                      "authedUser":"Admin",
+                      "pro"
+                    }
+ */
+
 function MainAppBar(props) {
-  const { classes, authedUser } = props;
+  const { classes, authedUser,activeProject } = props;
+  console.log("MainAppBar::activeProject: " + JSON.stringify(activeProject));
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -50,6 +63,7 @@ function MainAppBar(props) {
 MainAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
   authedUser: PropTypes.string.isRequired,
+  activeProject: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(MainAppBar)

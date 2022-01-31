@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles';
-import { TextField,Button } from '@material-ui/core';
+import { TextField, Button } from '@material-ui/core';
 import { withRouter } from 'react-router';
 
 const styles = {
@@ -17,10 +17,18 @@ const styles = {
   },
 };
 
+/**
+   * @component Login
+   * @param {function} setAuthedUser function to set authenticated user. 
+   * @param {object} authedUser      authenticated user 
+   * @description sets up data to display data for project (id) or display all
+   *              data if no project (-1) is selected
+   */
+
 class Login extends React.Component {
   constructor(props) {
     super(props)
-
+    console.log("Login::props: " + JSON.stringify(props))
     this.state = {
       username: "admin",
       password: ""
@@ -28,15 +36,15 @@ class Login extends React.Component {
   }
 
   handleChange = (e) => {
-    console.log("name: " + e.target.name);
-    console.log("value:" + e.target.value);
-    console.log("id: " + e.target.id);
+    console.log("Login::name: " + e.target.name);
+    console.log("Login::value:" + e.target.value);
+    console.log("Login::id: " + e.target.id);
 
     this.setState({ [e.target.name]: e.target.value });
   };
 
   handleLogin = (e) => {
-    console.log("username: " + this.state.username + " password: " + this.state.password)
+    console.log("Login::username: " + this.state.username + " password: " + this.state.password)
     // TODO:validate
 
     // pass authed user to app.
@@ -54,36 +62,36 @@ class Login extends React.Component {
   }
 
   render() {
-    return(
-        <div>
+    return (
+      <div>
         <h2>Login</h2>
         <form action="">
-                  <TextField
-                    autoFocus
-                    id="username"
-                    name="username"
-                    label="User Name"
-                    value={this.state.username}
-                    onChange={this.handleChange}
-                  />
-                  <TextField
-                    autoFocus
-                    id="password"
-                    name="password"
-                    label="Password"
-                    type="password"
-                    value={this.state.password}
-                    onChange={this.handleChange}
-                    mr={12}
-                  />
-              </form>
-              <Button onClick={this.handleClose} color="primary">
-                Cancel
-              </Button>
-              <Button onClick={this.handleLogin} color="primary">
-                Login
-              </Button>
-        </div>
+          <TextField
+            autoFocus
+            id="username"
+            name="username"
+            label="User Name"
+            value={this.state.username}
+            onChange={this.handleChange}
+          />
+          <TextField
+            autoFocus
+            id="password"
+            name="password"
+            label="Password"
+            type="password"
+            value={this.state.password}
+            onChange={this.handleChange}
+            mr={12}
+          />
+        </form>
+        <Button onClick={this.handleClose} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={this.handleLogin} color="primary">
+          Login
+        </Button>
+      </div>
     );
   }
 }

@@ -5,6 +5,7 @@ import ProjectPanel from './ProjectPanel';
 import PartPanel from './PartPanel';
 import NotePanel from './NotePanel';
 import TaskPanel from './TaskPanel';
+import { withRouter } from 'react-router-dom';
 
 const styles = theme => ({
   appBar: {
@@ -75,4 +76,4 @@ ProjectDetail.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ProjectDetail);
+export default withStyles(styles)(withRouter(ProjectDetail));

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import ListItem from '@material-ui/core/ListItem'
-import {ListItemAvatar} from '@material-ui/core'
+import { ListItemAvatar } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
-
+import { PropTypes } from 'prop-types';
 import { Avatar, ListItemText } from '@material-ui/core'
 import { withRouter } from 'react-router-dom'
 
@@ -10,10 +10,22 @@ const styles = theme => ({
   tr: {
     background: "#f1f1f1",
     '&:hover': {
-       background: "#f00",
+      background: "#f00",
     },
   },
+  taskItemButton: {
+    color: '#F0A', 
+    minWidth: '100%', 
+    maxWidth: '100px'
+  }
 });
+
+/**
+ * @component
+ * @description  Display list item and handles event.
+ * @param
+ */
+
 class TaskListItem extends Component {
   state = {
     open: false,
@@ -22,8 +34,9 @@ class TaskListItem extends Component {
 
   onDblClick = (e) => {
     console.log("-------------------------------------------")
-    console.log("TaskListItem::onDblClick::doubleclick called! ")
-    console.log("current taskId: " + this.props.currentTask.id)
+    console.log("TaskListItem::onDblClick:doubleclick called! ")
+    console.log("TaskListItem::onDblClick:current taskId: " + this.props.currentTask.id)
+
     // Go to TaskDetail
     this.props.history.push({
       pathname: `/task/${this.props.currentTask.id}`,
@@ -31,9 +44,7 @@ class TaskListItem extends Component {
     })
   }
   componentDidMount() {
-    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-    console.log("TaskListItem::componentDidMount:Props: " + JSON.stringify(this.props.currentTask))
-    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+    console.log("TaskListItem::componentDidMount:Props: " + JSON.stringify(this.props))
 
   }
 
@@ -41,25 +52,15 @@ class TaskListItem extends Component {
     const task = this.props.currentTask
     console.log("TaskListItem:render:task: " + JSON.stringify(task))
     return (
-      <ListItem key={this.props.key} alignItems="flex-start" onDoubleClick={this.onDblClick}  button sx={{color: '#F0A',minWidth: '100%', maxWidth:'100px'}}
-      sx={{
-          '&:hover': {
-            background: "#f00",
-          },
-          width:"500",
-      }}
-
-        key={task.id}
-      >
-        
-          {
-            task && (task.avatarURL ? 
-                <ListItemAvatar>
-                  <Avatar src={task.avatarURL} />
-                </ListItemAvatar>
-              : 
-                null)
-          }
+      <ListItem key={task.id} alignItems="flex-start" onDoubleClick={this.onDblClick} button className={styles.taskItemButton} >
+        {
+          task && (task.avatarURL ?
+            <ListItemAvatar>
+              <Avatar src={task.avatarURL} />
+            </ListItemAvatar>
+            :
+            null)
+        }
 
         <ListItemText
           primary={task.name}
@@ -81,6 +82,11 @@ class TaskListItem extends Component {
       </ListItem>
     )
   }
+}
+
+TaskListItem.propTypes = {
+  currentTask: PropTypes.object.isRequired,
+  activeProject: PropTypes.object.isRequired
 }
 
 export default withRouter(TaskListItem);

@@ -38,14 +38,26 @@ const styles = () => ({
  * 
  */
 
-class TaskDetail extends React.Component {
+class AddTask extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      projectParts: []
+    } 
+  }
+
+  handleAddPart = (part) => {
+    console.log("AddTask::handleAddPart::part: " + JSON.stringify(part))
+  }
 
   componentDidMount() {
-    console.log("TaskDetail::componentDidMount:props: " + JSON.stringify(this.props));
+    console.log("AddTask::componentDidMount:props: " + JSON.stringify(this.props));
   }
 
   render() {
-    const { classes, parts,activeProject } = this.props;
+    const { classes,activeProject } = this.props;
+    
+
     return (
       <Grid container spacing={0} className={classes.gridBorder} >
 
@@ -75,16 +87,16 @@ class TaskDetail extends React.Component {
         </Grid>
 
         <Grid item xs={12} className={classes.gridBorder + ' ' + classes.taskPartList}>
-          <PartList parts={parts} activeProject={activeProject}/>
+          <PartList parts={this.state.projectParts} activeProject={activeProject} addPart={this.handleAddPart}/>
         </Grid>
       </Grid>
     );
   }
 }
 
-TaskDetail.propTypes = {
+AddTask.propTypes = {
   classes: PropTypes.object.isRequired,
   parts: PropTypes.array.isRequired,
 };
 
-export default withStyles(styles)(withRouter(TaskDetail));
+export default withStyles(styles)(withRouter(AddTask));
