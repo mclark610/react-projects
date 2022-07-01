@@ -91,5 +91,3 @@ export const tmpProjects = [
     description: "Oldish tiller"
   }
 ]
-
-

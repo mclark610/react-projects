@@ -10,7 +10,7 @@ import { PropTypes } from 'prop-types';
  * @param {array} taskList 
  * @returns partList taskList that is associated with the projectID
  */
-export const filterProjectData = (projectID,partList,projectList,taskList) => {
+const filterProjectData = (projectID,partList,projectList,taskList) => {
 
   let projectData = {
       currentProject: -1,
@@ -67,4 +67,5 @@ filterProjectData.propTypes = {
     projectParts: PropTypes.array.isRequired,
     activeProject: PropTypes.number.isRequired
   }
-  
+
+export default filterProjectData;

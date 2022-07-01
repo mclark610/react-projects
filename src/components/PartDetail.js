@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
-import { withRouter } from 'react-router-dom'
 import { Grid, FormGroup, FormControlLabel, Switch } from '@material-ui/core';
+//import {useNavigate} from 'react-router-dom'
 
-const styles = theme => ({
+const styles = () => ({
   partName: {
     width: "80%",
     paddingTop: "20px",
@@ -44,10 +44,13 @@ class PartDetail extends React.Component {
     expanded: 'panel-project',
     checked: [0]
   };
+  
+
 
   componentDidMount() {
-    console.log("PartDetail:parts: " + this.props.parts)
+    console.log("PartDetail:parts: " + this.props.parts);
     console.log("PartDetail:Project: " + this.props.match)
+    this.props.handleLocation("Part Detail");
   }
 
   handleClickOpen = () => {
@@ -114,4 +117,4 @@ PartDetail.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(PartDetail));
+export default withStyles(styles)(PartDetail);

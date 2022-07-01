@@ -15,6 +15,9 @@ import { TabPanel, a11yProps } from './TabPanel'
 * @param {array} parts       - array of parts
 * @param {array} tasks       - array of tasks
 */
+/** TODO: add Task
+ *        add Part
+ */
 
 class MainPage extends Component {
   constructor(props) {
@@ -23,7 +26,7 @@ class MainPage extends Component {
       selectedTab: 0,
       selectedProject: -1,
     }
-
+    props.handleLocation("MainPage")
     console.log("MainPage::props: " + JSON.stringify(props));
   }
 
@@ -60,11 +63,6 @@ class MainPage extends Component {
                   onChange={this.handleChange}
                 >
                   <MenuItem key={0} value={-1}><em>-- Not Set --</em></MenuItem>
-                  {/*
-                  <MenuItem key={1} value={0}><em>Ford</em></MenuItem>
-                  <MenuItem key={2} value={1}><em>Hyundai</em></MenuItem>
-                  <MenuItem key={3} value={2}><em>Tiller</em></MenuItem>
- */}
                   {this.props.projects.map((project,index) => (
 
                     <MenuItem key={index+1} value={project.id}>
@@ -88,10 +86,10 @@ class MainPage extends Component {
               </Tabs>
               <h2>state.value:{this.state.selectedTab}</h2>
               <TabPanel value={this.state.selectedTab} index={0}>
-                <TaskList tasks={this.props.tasks} activeProject={this.props.activeProject}/>
+                <TaskList tasks={this.props.tasks} activeProject={this.props.activeProject} location={this.props.handleLocation}/>
               </TabPanel>
               <TabPanel value={this.state.selectedTab} index={1}>
-                <PartList parts={this.props.parts} activeProject={this.props.activeProject}/>
+                <PartList parts={this.props.parts} activeProject={this.props.activeProject} location={this.props.handleLocation}/>
               </TabPanel>
             </Paper>
           </Grid>

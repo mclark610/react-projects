@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
-import { withRouter } from 'react-router-dom'
 import { Grid, FormGroup, FormControlLabel, Switch } from '@material-ui/core';
-import PartList from './PartList';
+import PartListPanel from './PartListPanel';
+import { useParams } from 'react-router-dom';
 
 const styles = () => ({
   taskName: {
@@ -28,7 +28,14 @@ const styles = () => ({
   },
   gridBorder: {
     border: "1px solid grey"
+  },
+  lastRow: {
+    marginBottom: "10px"
+  },
+  lastContainer: {
+    display: 'inline-flex',
   }
+
 });
 
 /**
@@ -38,48 +45,59 @@ const styles = () => ({
  * 
  */
 
-class TaskDetail extends React.Component {
+const TaskDetail = (props) => {
+  let { id } = useParams();
 
-  componentDidMount() {
-    console.log("TaskDetail::componentDidMount:props: " + JSON.stringify(this.props));
-  }
+  console.log("TaskDetail::props: " + JSON.stringify(props));
+  console.log("TaskDetail::id: " + JSON.stringify(id));
 
-  render() {
-    const { classes, parts,activeProject } = this.props;
-    return (
-      <Grid container spacing={0} className={classes.gridBorder} >
+  useEffect( () => {
+    props.handleLocation("Task Detail")
 
-        <Grid item className={classes.gridBorder + ' ' + classes.taskActive} xs={8}>
-          <FormGroup>
-            <FormControlLabel control={<Switch defaultChecked />} label="Active" />
-          </FormGroup>
-        </Grid>
+  })
 
-        <Grid item className={classes.gridBorder} xs={8} >
-          <TextField className={classes.taskName} variant="outlined" placeholder="Task Name" />
-        </Grid>
-        <Grid item className={classes.gridBorder} xs={8} >
-          <TextField multiline variant="outlined" maxRows={4} minRows={4} className={classes.taskDescription} placeholder="Task Description"></TextField>
-        </Grid>
+  const { classes, parts, activeProject, tasks } = props;
+  const currentTask = tasks[id];
+  console.log("TaskDetail::currentTask: " + JSON.stringify(currentTask));
+  return (
+    <Grid container spacing={0} className={classes.gridBorder} >
 
-        <Grid item xs={8} className={classes.gridBorder}>
-          Notes
-        </Grid>
-
-        <Grid item className={classes.gridBorder} xs={8}>
-          <TextField multiline variant="outlined" minRows={8} className={classes.taskNotes} placeholder="Notes"></TextField>
-        </Grid>
-
-        <Grid item xs={8} className={classes.gridBorder}>
-          Part List
-        </Grid>
-
-        <Grid item xs={12} className={classes.gridBorder + ' ' + classes.taskPartList}>
-          <PartList parts={parts} activeProject={activeProject}/>
-        </Grid>
+      <Grid item className={classes.gridBorder + ' ' + classes.taskActive} xs={8}>
+        <FormGroup>
+          <FormControlLabel control={<Switch defaultChecked />} label="Active" />
+        </FormGroup>
       </Grid>
-    );
-  }
+
+      <Grid item className={classes.gridBorder} xs={8} >
+        <TextField className={classes.taskName} variant="outlined" placeholder="Task Name" value={currentTask.name} />
+      </Grid>
+      <Grid item className={classes.gridBorder} xs={8} >
+        <TextField multiline variant="outlined" maxRows={4} minRows={4} className={classes.taskDescription} value={currentTask.description} placeholder="Task Description"></TextField>
+      </Grid>
+
+      <Grid item xs={8} className={classes.gridBorder}>
+        Notes
+      </Grid>
+
+      <Grid item className={classes.gridBorder} xs={8}>
+        <TextField multiline variant="outlined" minRows={8} className={classes.taskNotes} placeholder="Notes"></TextField>
+      </Grid>
+
+      <Grid item xs={8} className={classes.gridBorder}>
+        Part List
+      </Grid>
+
+      <Grid item xs={12} className={classes.gridBorder + ' ' + classes.taskPartList}>
+        <PartListPanel parts={parts} activeProject={activeProject} activeTask={currentTask} />
+      </Grid>
+
+      <Grid container >
+        <Grid item xs={4} class={classes.gridBorder+ ' ' + classes.lastRow}>button 1</Grid>
+        <Grid item xs={4} class={classes.gridBorder+ ' ' + classes.lastRow}>button 2</Grid>
+        <Grid item xs={4} class={classes.gridBorder+ ' ' + classes.lastRow}>button 3</Grid>
+      </Grid>
+    </Grid>
+  );
 }
 
 TaskDetail.propTypes = {
@@ -87,4 +105,4 @@ TaskDetail.propTypes = {
   parts: PropTypes.array.isRequired,
 };
 
-export default withStyles(styles)(withRouter(TaskDetail));
+export default withStyles(styles)(TaskDetail);

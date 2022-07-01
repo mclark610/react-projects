@@ -8,8 +8,7 @@ import TaskListItem from './TaskListItem';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { useNavigate,useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const styles = () => ({
   taskList: {
@@ -56,27 +55,31 @@ const styles = () => ({
  *       display
  */
 
-const TaskList = (props) => {
-  const [searchFor, setSearchFor] = useState('');
-  const { classes, tasks } = props;
-  const navigate = useNavigate();
-  const params = useParams();
+class TaskList extends Component {
 
-  console.log("---------------------------------------------------")
-  console.log("TaskList::tasks : " + JSON.stringify(tasks))
-  console.log("TaskList::props: " + JSON.stringify(props));
+  state = {
+    searchFor: '',
+  }
 
-
-  const handleAddTask = (e) => {
-
-    e.preventDefault();
+  handleAddPart = () => {
+    
+    let navigate=useNavigate();
     navigate('/addtask');
-   
+    
+    // Go to TaskDetail
+//    this.props.history.push({
+//      pathname: `/addtask`
+//    })
+
   }
 
-  const onSearchInputChange = (e) => {
-    setSearchFor(e.target.value);
-  }
+  render() {
+    const { classes, tasks } = this.props;
+
+    console.log("---------------------------------------------------")
+    console.log("TaskList::tasks : " + JSON.stringify(tasks))
+    console.log("TaskList::props: " + JSON.stringify(this.props));
+
     /*
         this.props.tasks.map((currentTask, index) => (
           console.log("TaskList::currentTask[" + index + "]: "+ JSON.stringify(currentTask))
@@ -89,7 +92,7 @@ const TaskList = (props) => {
             id="searchTaskList"
             placeholder="Task"
             margin="normal"
-            onChange={onSearchInputChange}
+            onChange={this.onSearchInputChange}
           />
         </Grid>
         <Grid item className={classes.taskList}>
@@ -98,9 +101,9 @@ const TaskList = (props) => {
             {tasks && tasks.length ? (
 
               <List>
-                {props.tasks.map((currentTask, index) => (
+                {this.props.tasks.map((currentTask, index) => (
                   <TaskListItem key={index}
-                    currentTask={currentTask} activeProject={props.activeProject} />
+                    currentTask={currentTask} activeProject={this.props.activeProject} />
                 ))}
               </List>
             ) : (
@@ -122,7 +125,7 @@ const TaskList = (props) => {
         >
           <Box>
             <Fab color="primary" aria-label="add">
-              <AddIcon onClick={handleAddTask} />
+              <AddIcon onClick={this.handleAddPart} />
             </Fab>
             <Fab disabled aria-label="delete">
               <DeleteIcon />
@@ -133,6 +136,7 @@ const TaskList = (props) => {
       </div>
     )
   }
+}
 
 TaskList.propTypes = {
   activeProject: PropTypes.object.isRequired,

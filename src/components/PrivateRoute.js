@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Redirect, withRouter } from 'react-router-dom'
+import { Route, Navigate } from 'react-router-dom'
 
 // TODO: add error message feature?
 
@@ -16,14 +16,9 @@ function PrivateRoute({ children, ...rest }) {
   console.log("PrivateRoute::autheduser  " + (rest.authedUser === null ? "is Null" : "isnt Null"))
   console.log("PrivateRoute::authedUser  " + (rest.authedUser !== "" ? "children" : "redirect"))
 
-  return (
-    <Route {...rest} render={() => {
-
-      return rest.authedUser !== ""
-        ? children
-        : <Redirect to='/login' />
-    }} />
-  )
+  return rest.authedUser !== ""
+    ? children
+    : <Navigate to='/login' />
 }
 
-export default withRouter(PrivateRoute)
+export default PrivateRoute;

@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import ListItem from '@material-ui/core/ListItem'
 import { ListItemAvatar } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 import { PropTypes } from 'prop-types';
 import { Avatar, ListItemText } from '@material-ui/core'
-import { withRouter } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 const styles = theme => ({
   tr: {
@@ -14,79 +14,69 @@ const styles = theme => ({
     },
   },
   taskItemButton: {
-    color: '#F0A', 
-    minWidth: '100%', 
+    color: '#F0A',
+    minWidth: '100%',
     maxWidth: '100px'
   }
 });
 
 /**
- * @component
+ * @function
  * @description  Display list item and handles event.
  * @param
  */
 
-class TaskListItem extends Component {
-  state = {
-    open: false,
-    selectedValue: false
-  }
+const TaskListItem = (props) => {
 
-  onDblClick = (e) => {
+  const navigate = useNavigate();
+
+  console.log("TaskListItem::Props: " + JSON.stringify(props))
+
+  const onDblClick = (e) => {
     console.log("-------------------------------------------")
     console.log("TaskListItem::onDblClick:doubleclick called! ")
-    console.log("TaskListItem::onDblClick:current taskId: " + this.props.currentTask.id)
+    console.log("TaskListItem::onDblClick:current taskId: " + props.currentTask.id)
 
-    // Go to TaskDetail
-    this.props.history.push({
-      pathname: `/task/${this.props.currentTask.id}`,
-      currentTask: this.props.currentTask
-    })
-  }
-  componentDidMount() {
-    console.log("TaskListItem::componentDidMount:Props: " + JSON.stringify(this.props))
-
+    // Go to task detail
+    navigate(`/task/${props.currentTask.id}`, props.currentTask.id)
   }
 
-  render() {
-    const task = this.props.currentTask
-    console.log("TaskListItem:render:task: " + JSON.stringify(task))
-    return (
-      <ListItem key={task.id} alignItems="flex-start" onDoubleClick={this.onDblClick} button className={styles.taskItemButton} >
-        {
-          task && (task.avatarURL ?
-            <ListItemAvatar>
-              <Avatar src={task.avatarURL} />
-            </ListItemAvatar>
-            :
-            null)
+  const task = props.currentTask
+  console.log("TaskListItem:render:task: " + JSON.stringify(task))
+  return (
+    <ListItem key={task.id} alignItems="flex-start" onDoubleClick={onDblClick} button className={styles.taskItemButton} >
+      {
+        task && (task.avatarURL ?
+          <ListItemAvatar>
+            <Avatar src={task.avatarURL} />
+          </ListItemAvatar>
+          :
+          null)
+      }
+
+      <ListItemText
+        primary={task.name}
+        secondary={
+            <Typography
+              sx={{ display: 'inline' }}
+              component="span"
+              variant="body2"
+              color="textPrimary"
+            >
+              {task.description ? task.description : ''}
+            </Typography>
         }
-
-        <ListItemText
-          primary={task.name}
-          secondary={
-            <React.Fragment>
-              <Typography
-                sx={{ display: 'inline' }}
-                component="span"
-                variant="body2"
-                color="textPrimary"
-              >
-                {task.description ? task.description : ''}
-              </Typography>
-            </React.Fragment>
-          }
-        >
-          {task.name}
-        </ListItemText>
-      </ListItem>
-    )
-  }
+      >
+        {task.name}
+      </ListItemText>
+    </ListItem>
+  )
 }
+
 
 TaskListItem.propTypes = {
   currentTask: PropTypes.object.isRequired,
   activeProject: PropTypes.object.isRequired
 }
 
-export default withRouter(TaskListItem);
+export default TaskListItem;

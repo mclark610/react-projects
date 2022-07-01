@@ -1,20 +1,87 @@
 import React, { Component } from 'react'
 import ListItem from '@material-ui/core/ListItem'
-import {ListItemAvatar} from '@material-ui/core'
+import { ListItemAvatar } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 
 import { Avatar, ListItemText } from '@material-ui/core'
-import { withRouter } from 'react-router-dom'
+import { useState } from 'react'
+
+import { useNavigate } from 'react-router-dom'
 
 const styles = theme => ({
   tr: {
     background: "#f1f1f1",
     '&:hover': {
-       background: "#f00",
+      background: "#f00",
     },
   },
 });
-class ProjectListItem extends Component {
+
+const ProjectListItem = (props) => {
+  const [open, SetOpen] = useState(false)
+  const [selectedValue, SetSelectedValue] = useState(false)
+
+  const navigate = useNavigate();
+  console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+  console.log("ProjectListItem::componentDidMount:Props: " + JSON.stringify(props))
+  console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+
+  const onDblClick = (e) => {
+    console.log("-------------------------------------------")
+    console.log("ProjectListItem::onDblClick::doubleclick called! ")
+    console.log("ProjectListItem::onDblClick::current projectid: " + props.currentProject.id)
+
+    // Go to ProjectDetail
+    navigate(`/project/${props.currentProject.id}`, { currentProject });
+  }
+
+  const project = props.currentProject
+  console.log("ProjectListItem:render:project: " + JSON.stringify(project))
+  return (
+    <ListItem key={props.key} alignItems="flex-start" onDoubleClick={onDblClick} button sx={{ color: '#F0A', minWidth: '100%', maxWidth: '100px' }}
+      sx={{
+        '&:hover': {
+          background: "#f00",
+        },
+        width: "500",
+      }}
+
+      key={project.id}
+    >
+
+      {
+        project && (project.avatarURL ?
+          <ListItemAvatar>
+            <Avatar src={project.avatarURL} />
+          </ListItemAvatar>
+          :
+          null)
+      }
+
+      <ListItemText
+        primary={project.name}
+        secondary={
+          <React.Fragment>
+            <Typography
+              sx={{ display: 'inline' }}
+              component="span"
+              variant="body2"
+              color="textPrimary"
+            >
+              {project.description ? project.description : ''}
+            </Typography>
+          </React.Fragment>
+        }
+      >
+        {project.name}
+      </ListItemText>
+    </ListItem>
+  )
+}
+}
+
+
+class ProjectListItemOrg extends Component {
   state = {
     open: false,
     selectedValue: false
@@ -40,25 +107,25 @@ class ProjectListItem extends Component {
     const project = this.props.currentProject
     console.log("ProjectListItem:render:project: " + JSON.stringify(project))
     return (
-      <ListItem key={this.props.key} alignItems="flex-start" onDoubleClick={this.onDblClick}  button sx={{color: '#F0A',minWidth: '100%', maxWidth:'100px'}}
-      sx={{
+      <ListItem key={this.props.key} alignItems="flex-start" onDoubleClick={this.onDblClick} button sx={{ color: '#F0A', minWidth: '100%', maxWidth: '100px' }}
+        sx={{
           '&:hover': {
             background: "#f00",
           },
-          width:"500",
-      }}
+          width: "500",
+        }}
 
         key={project.id}
       >
-        
-          {
-            project && (project.avatarURL ? 
-                <ListItemAvatar>
-                  <Avatar src={project.avatarURL} />
-                </ListItemAvatar>
-              : 
-                null)
-          }
+
+        {
+          project && (project.avatarURL ?
+            <ListItemAvatar>
+              <Avatar src={project.avatarURL} />
+            </ListItemAvatar>
+            :
+            null)
+        }
 
         <ListItemText
           primary={project.name}
@@ -82,4 +149,4 @@ class ProjectListItem extends Component {
   }
 }
 
-export default withRouter(ProjectListItem);
+export default ProjectListItem;

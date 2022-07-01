@@ -1,10 +1,8 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField'
 
-import { Paper } from '@material-ui/core';
 import { PropTypes } from 'prop-types';
 import PartListItem from './PartListItem';
 
@@ -69,7 +67,116 @@ const styles = () => ({
  * @param {number} currentProject - project these parts are associated with
  */
 
-class PartList extends Component {
+
+const PartList = (props) => {
+  const [searchFor, SetSearchFor] = useState('')
+  const navigate = useNavigate();
+
+  const onSearchInputChange = (e) => {
+    SetSearchFor(e.target.value);
+  }
+
+  const handleAddPart = (e) => {
+
+    console.log("PartList::handleAddPart")
+    console.log("PartList::handleAddPart:props: " + JSON.stringify(props))
+
+    e.preventDefault();
+
+    navigate('/partstore', props.currentProject);
+  }
+  
+  const isPartInTaskList = (id) => {
+    const { task,parts } = props;
+    
+    let found = false;
+    if (parts) {
+      found = parts.find( (element) => id === element.id);
+
+      console.log("PartList::isPartInTaskList::partInArray: " + JSON.stringify(found));
+      console.log("PartList::isPartInTaskList::part id      : " + JSON.stringify(id));
+      console.log("PartList::isPartInTaskList::parts      : " + JSON.stringify(parts));
+    }
+    
+    return (!found ? false: true);
+  }
+
+  const { classes, parts } = props;
+  return (
+
+    <Grid container>
+
+      <Grid item xs={12} className={classes.gridBorder + " " + classes.searchPartList}>
+        <Box className={classes.searchPartList}>
+          <TextField
+            id="searchPartList"
+            placeholder="Part"
+            onChange={onSearchInputChange}
+          />
+        </Box>
+      </Grid>
+
+      <Grid item
+        className={
+          classes.gridBorder + " " +
+          classes.taskPartList
+        }
+
+        xs={8}>
+        {console.log("PartList::render::return")}
+        {console.log("PartList::parts: " + JSON.stringify(parts))}
+        {
+          
+          parts.map((currentPart,index) => {
+            console.log("PartList::render:index::" + index)
+          })
+        }
+        <Box className={classes.debugBox}>
+          {parts && parts.length ? (
+            <List>
+              {props.parts.map((currentPart, index) => (
+                <PartListItem 
+                  key={index}
+                  currentPart={currentPart}
+                  activeProject={props.activeProject}
+                  textColor={isPartInTaskList(currentPart.id) === true ? "green" : "blue"}
+                />
+              ))}
+            </List>
+          ) : (
+            <List>
+              <ListItem>
+                <Typography>
+                  No Part in list
+                </Typography>
+              </ListItem>
+            </List>
+          )}
+
+        </Box>
+      </Grid>
+      <Grid item xs={4}></Grid>
+      <Grid item className={
+        classes.gridBorder + " " +
+        classes.partListActions
+      }
+        xs={8}
+      >
+        <Box>
+          <Fab color="primary" aria-label="add">
+            <AddIcon onClick={handleAddPart} />
+          </Fab>
+          <Fab disabled aria-label="delete">
+            <DeleteIcon />
+          </Fab>
+        </Box>
+      </Grid>
+    </Grid>
+  )
+}
+
+/*
+class PartListOrg extends Component {
 
   state = {
     searchFor: ''
@@ -144,7 +251,7 @@ class PartList extends Component {
                 </ListItem>
               </List>
             )}
-            
+
           </Box>
         </Grid>
         <Grid item xs={4}></Grid>
@@ -163,15 +270,16 @@ class PartList extends Component {
             </Fab>
           </Box>
         </Grid>
-        </Grid>
+      </Grid>
     )
   }
 }
+*/
 
-        PartList.propTypes = {
-          parts: PropTypes.array,
-        currentProject: PropTypes.object,
+PartList.propTypes = {
+  parts: PropTypes.array,
+  currentProject: PropTypes.object,
 }
 
-        export default withStyles(styles)(withRouter(PartList));
+export default withStyles(styles)(PartList);
 

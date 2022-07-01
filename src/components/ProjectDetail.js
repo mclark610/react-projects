@@ -5,9 +5,8 @@ import ProjectPanel from './ProjectPanel';
 import PartPanel from './PartPanel';
 import NotePanel from './NotePanel';
 import TaskPanel from './TaskPanel';
-import { withRouter } from 'react-router-dom';
 
-const styles = theme => ({
+const styles = () => ({
   appBar: {
     position: 'relative',
   },
@@ -17,6 +16,10 @@ const styles = theme => ({
 
 });
 
+/**
+ * @function ProjectDetail
+ * @description 
+ */
 class ProjectDetail extends React.Component {
   state = {
     open: false,
@@ -76,4 +79,4 @@ ProjectDetail.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(ProjectDetail));
+export default withStyles(styles)(ProjectDetail);

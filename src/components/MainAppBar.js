@@ -45,7 +45,7 @@ function MainAppBar(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" className={classes.grow}>
-            Project
+            Project: {props.location}
           </Typography>
           <Button
             component={NavLink}
@@ -63,7 +63,8 @@ function MainAppBar(props) {
 MainAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
   authedUser: PropTypes.string.isRequired,
-  activeProject: PropTypes.object.isRequired
+  activeProject: PropTypes.object.isRequired,
+  location: PropTypes.string
 };
 
 export default withStyles(styles)(MainAppBar)

@@ -1,5 +1,7 @@
 import React from 'react';
-import PartList from './PartList';
+import {useState} from 'react';
+
+import PartListPanel from './PartListPanel';
 
 import Button from '@mui/material/Button';
 
@@ -7,13 +9,19 @@ import Button from '@mui/material/Button';
 // drag drop? or add button to start..
 /**
  * @description PartList allows one to select parts to add to project.  
- *              Parts part of project are colored green.
+ *              Parts in part list of store are colored green.
+ *              
  * @param {*} props 
  * @returns Part List page
  * 
  */
+
 const PartStore = (props) => {
   console.log("PartStore::props: " + JSON.stringify(props));
+  props.handleLocation("Parts Store");
+
+  const [taskPartList, setTaskPartList] = useState(props.parts)
+
   return (
     <div>
       This is part store.
@@ -27,14 +35,14 @@ const PartStore = (props) => {
       </ul>
       <h2>Part Store</h2>
       <div className="part-list">
-        <PartList parts={props.parts} activeProject={props.activeProject}/>
+        <PartListPanel parts={taskPartList} allParts={props.allParts} activeProject={props.activeProject}/>
       </div>
       <div>
-      <Button variant="outlined" size="small">
-          Add Part
+      <Button variant="outlined" size="small" onClick={()=>{console.log("PartStore Button hit")}}>
+          Save
         </Button>
         <Button variant="outlined" size="small">
-          Remove Part          
+          Clear
         </Button>
 
       </div>

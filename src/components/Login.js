@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles';
 import { TextField, Button } from '@material-ui/core';
-import { withRouter } from 'react-router';
 
 const styles = {
   root: {
     flexGrow: 1,
   },
-  grow: {
+grow: {
     flexGrow: 1,
   },
   menuButton: {
@@ -100,4 +99,4 @@ Login.propTypes = {
   setAuthedUser: PropTypes.func.isRequired,
   authedUser: PropTypes.string.isRequired
 }
-export default withRouter(withStyles(styles)(Login));
+export default withStyles(styles)(Login);

@@ -14,7 +14,6 @@ import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 
 import TaskDialog from './TaskDialog'
-import {withRouter} from 'react-router-dom'
 
 class TaskPanel extends React.Component {
   state = {
@@ -39,6 +38,7 @@ class TaskPanel extends React.Component {
     console.log("TaskPanel:handleEditClick:target.name: " + e.target.name)
   
     console.log("TaskPanel:handleEditClick:task: " + JSON.stringify(this.props.tasks[value]))
+    
     // Go to TaskDetail
     
     this.props.history.push({
@@ -131,6 +131,7 @@ TaskPanel.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
+
 const styles = theme => ({
   flex: {
     flex: 1,
@@ -150,4 +151,4 @@ const styles = theme => ({
 });
 
 
-export default withStyles(styles)(withRouter(TaskPanel));
+export default withStyles(styles)(TaskPanel);

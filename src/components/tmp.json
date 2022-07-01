@@ -1,0 +1,12 @@
+{
+  "currentPart": {
+    "id": 0,
+    "name": "Oil: Mobil 1 5-20w",
+    "description": "pretty good oil"
+  },
+  "activeProject": {
+    "id": -1,
+    "name": "Project"
+  },
+  "textColor": "green"
+}
