@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import ListItem from '@material-ui/core/ListItem'
-import {ListItemAvatar} from '@material-ui/core'
-import Typography from '@material-ui/core/Typography'
+import ListItem from '@mui/material/ListItem'
+import {ListItemAvatar} from '@mui/material'
+import Typography from '@mui/material/Typography'
 
-import { Avatar, ListItemText } from '@material-ui/core'
+import { Avatar, ListItemText } from '@mui/material'
 import { withRouter } from 'react-router-dom'
 
 const styles = theme => ({

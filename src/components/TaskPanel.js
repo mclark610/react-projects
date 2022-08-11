@@ -1,20 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+import Paper from '@mui/material/Paper';
 
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 
-import { List, ListItem, ListItemText, ListItemSecondaryAction, Checkbox } from '@material-ui/core';
-import Fab from '@material-ui/core/Fab';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
+import { List, ListItem, ListItemText, ListItemSecondaryAction, Checkbox } from '@mui/material';
+import Fab from '@mui/material/Fab';
+import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 
-import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import TaskDialog from './TaskDialog'
-import {withRouter} from 'react-router-dom'
 
 class TaskPanel extends React.Component {
   state = {
@@ -41,7 +39,7 @@ class TaskPanel extends React.Component {
     console.log("TaskPanel:handleEditClick:task: " + JSON.stringify(this.props.tasks[value]))
     // Go to TaskDetail
     
-    this.props.history.push({
+    this.props.navigation.navigate({
       pathname: `/task/${value}`,
       currentTask: this.props.tasks[value]
     })
@@ -149,5 +147,4 @@ const styles = theme => ({
 
 });
 
-
-export default withStyles(styles)(withRouter(TaskPanel));
+export default TaskPanel;

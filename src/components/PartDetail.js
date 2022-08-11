@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import { TextField } from '@material-ui/core';
-import { withRouter } from 'react-router-dom'
-import { Grid, FormGroup, FormControlLabel, Switch } from '@material-ui/core';
+import TextField from '@mui/material/TextField';
+import { Grid, FormGroup, FormControlLabel, Switch } from '@mui/material';
 
 const styles = theme => ({
   partName: {
@@ -81,28 +79,28 @@ class PartDetail extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { styles } = this.props;
     return (
       <div>
         <Grid container  spacing={2}>
-          <Grid  className={classes.partName} item xs={6} >
-            <TextField className={classes.partName} variant="outlined" placeholder="Part Name" />
+          <Grid  className={styles.partName} item xs={6} >
+            <TextField className={styles.partName} variant="outlined" placeholder="Part Name" />
           </Grid>
-          <Grid item xs={2} className={classes.partActive}>
+          <Grid item xs={2} className={styles.partActive}>
             <FormGroup>
               <FormControlLabel control={<Switch defaultChecked />} label="Active" />
             </FormGroup>
           </Grid>
-          <Grid item className={classes.partDescription} xs={10} >
-            <TextField multiline variant="outlined" maxRows={4} minRows={4} className={classes.partDescription} placeholder="Part Description"></TextField>
+          <Grid item className={styles.partDescription} xs={10} >
+            <TextField multiline variant="outlined" maxRows={4} minRows={4} className={styles.partDescription} placeholder="Part Description"></TextField>
           </Grid>
         </Grid>
         <Grid container  spacing={2}>
           <Grid item xs={8}>
             Notes
           </Grid>
-          <Grid item className={classes.partNotes} xs={10}>
-            <TextField multiline variant="outlined" minRows={8} className={classes.partNotes} placeholder="Notes"></TextField>
+          <Grid item className={styles.partNotes} xs={10}>
+            <TextField multiline variant="outlined" minRows={8} className={styles.partNotes} placeholder="Notes"></TextField>
           </Grid>
         </Grid>
       </div>
@@ -111,7 +109,7 @@ class PartDetail extends React.Component {
 }
 
 PartDetail.propTypes = {
-  classes: PropTypes.object.isRequired,
+  styles: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(PartDetail));
+export default PartDetail;

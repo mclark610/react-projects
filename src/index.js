@@ -1,25 +1,56 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import {Provider} from 'react-redux'
-import {createStore} from 'redux'
+
+import ReactDOM from 'react-dom/client';
+
+import { render } from 'react-dom'; 
+
+// Redux
+import store from './redux/store.js';
+/*
 import middleware from './middleware/'
 import reducer from './reducers/'
-import {compose} from 'redux'
+*/
 
+import { Provider } from 'react-redux';
+
+const root = ReactDOM.createRoot(document.getElementById('root')); 
+
+root.render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+);
+
+//const root = createRoot(container);
+
+/*
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+);
+*/
+/*
+root.render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+);
+*/
 // development mode.  this setup uses chrome redux devtool extension
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(reducer, composeEnhancers(
-    middleware
-  ));
+//const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+  /*
 ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>, 
   document.getElementById('root'));
+  */
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import ListItem from '@material-ui/core/ListItem'
-import {ListItemAvatar} from '@material-ui/core'
-import Typography from '@material-ui/core/Typography'
+import ListItem from '@mui/material/ListItem'
+import {ListItemAvatar} from '@mui/material'
+import Typography from '@mui/material/Typography'
 
-import { Avatar, ListItemText } from '@material-ui/core'
-import { withRouter } from 'react-router-dom'
+import { Avatar, ListItemText } from '@mui/material'
 import { PropTypes } from 'prop-types';
+import { useNavigate } from 'react-router-dom'
 
 /**
  * @description Draws the Part list item.
@@ -19,6 +19,7 @@ class PartListItem extends Component {
     open: false,
     selectedValue: false
   }
+  navigate = useNavigate();
 
   onDblClick = (e) => {
     console.log("-------------------------------------------")
@@ -26,7 +27,13 @@ class PartListItem extends Component {
     console.log("PartListItem::onDblClick::current partId: " + this.props.currentPart.id)
 
     // Go to PartDetail
+    /*
     this.props.history.push({
+      pathname: `/part/${this.props.currentPart.id}`,
+      currentPart: this.props.currentPart
+    })
+    */
+    this.navigate({
       pathname: `/part/${this.props.currentPart.id}`,
       currentPart: this.props.currentPart
     })
@@ -89,4 +96,4 @@ PartListItem.propTypes = {
   activeProject: PropTypes.object.isRequired,
   textColor: PropTypes.string
 }
-export default withRouter(PartListItem);
+export default PartListItem;

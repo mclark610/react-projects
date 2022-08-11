@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
-import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField'
+import TextField from '@mui/material/TextField'
 
 import { PropTypes } from 'prop-types';
-import { Grid, List, Box, ListItem, Typography } from '@material-ui/core';
+import { Grid, List, Box, ListItem, Typography } from '@mui/material';
 import TaskListItem from './TaskListItem';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { withRouter } from 'react-router-dom'
 
 const styles = () => ({
   taskList: {
@@ -64,7 +62,7 @@ class TaskList extends Component {
   handleAddPart = () => {
 
     // Go to TaskDetail
-    this.props.history.push({
+    this.props.navigation.navigate({
       pathname: `/addtask`
     })
 
@@ -140,4 +138,4 @@ TaskList.propTypes = {
   tasks: PropTypes.array
 }
 
-export default withStyles(styles)(withRouter(TaskList));
+export default TaskList;

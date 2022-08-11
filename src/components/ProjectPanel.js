@@ -1,12 +1,12 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import {TextField} from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Switch from '@material-ui/core/Switch';
 
-import { Accordion,AccordionSummary, AccordionDetails  } from '@material-ui/core';
+import Typography from '@mui/material/Typography';
+import {TextField} from '@mui/material';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Switch from '@mui/material/Switch';
+
+import { Accordion,AccordionSummary, AccordionDetails  } from '@mui/material';
 
 const styles = theme => ({
   container: {
@@ -157,4 +157,4 @@ class ProjectPanel extends React.Component {
     }
 }
 
-export default withStyles(styles)(ProjectPanel);
+export default ProjectPanel;

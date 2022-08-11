@@ -1,29 +1,18 @@
-import React from 'react'
-import { Route, Redirect, withRouter } from 'react-router-dom'
+import { Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-// TODO: add error message feature?
+import { history } from '_helpers';
 
-/**
-* @description PrivateRoute  - a great object that checks if the user is currently
-*                              authorized to use the given route.  
-*                              Perfect demonstration of how to use ...rest feature
-* @constructor
-* @param {object} authedUser - The authorized userID that may answer the question
-*/
+export default PrivateRoute;
 
-function PrivateRoute({ children, ...rest }) {
-  console.log("PrivateRoute::authedUser is : " + rest.authedUser)
-  console.log("PrivateRoute::autheduser  " + (rest.authedUser === null ? "is Null" : "isnt Null"))
-  console.log("PrivateRoute::authedUser  " + (rest.authedUser !== "" ? "children" : "redirect"))
+function PrivateRoute({ children }) {
+    const { user: authUser } = useSelector(x => x.auth);
+    
+    if (!authUser) {
+        // not logged in so redirect to login page with the return url
+        return <Navigate to="/login" state={{ from: history.location }} />
+    }
 
-  return (
-    <Route {...rest} render={() => {
-
-      return rest.authedUser !== ""
-        ? children
-        : <Redirect to='/login' />
-    }} />
-  )
+    // authorized so return child components
+    return children;
 }
-
-export default withRouter(PrivateRoute)

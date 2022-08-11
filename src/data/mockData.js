@@ -92,4 +92,19 @@ export const tmpProjects = [
   }
 ]
 
+export const tmpUsers = [
+  {
+    id: 0,
+    name: "",
+    pwd: ""
+  }
+]
+export const getUser = () => {
+  return tmpUsers[0].name;
+}
 
+export const setUser = ({id,name,pwd}) => {
+  tmpUsers[0].id = id;
+  tmpUsers[0].name = name;
+  tmpUsers[0].pwd = pwd;
+}

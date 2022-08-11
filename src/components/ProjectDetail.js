@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+
 import ProjectPanel from './ProjectPanel';
 import PartPanel from './PartPanel';
 import NotePanel from './NotePanel';
 import TaskPanel from './TaskPanel';
-import { withRouter } from 'react-router-dom';
 
 const styles = theme => ({
   appBar: {
@@ -73,7 +72,6 @@ class ProjectDetail extends React.Component {
 }
 
 ProjectDetail.propTypes = {
-  classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(ProjectDetail));
+export default ProjectDetail;

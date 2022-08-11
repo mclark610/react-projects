@@ -1,17 +1,16 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
 
-import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField'
+import TextField from '@mui/material/TextField'
 
-import { Paper } from '@material-ui/core';
 import { PropTypes } from 'prop-types';
 import PartListItem from './PartListItem';
 
-import { List, Box, Grid, ListItem, Typography } from '@material-ui/core';
+import { useNavigate } from 'react-router-dom';
+
+import { List, Box, Grid, ListItem, Typography } from '@mui/material';
 import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add'
-import DeleteIcon from '@mui/icons-material/Delete'
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const styles = () => ({
   searchPartList: {
@@ -74,16 +73,24 @@ class PartList extends Component {
   state = {
     searchFor: ''
   }
+  
+  navigate = useNavigate();
 
   handleAddPart = () => {
     console.log("PartList::handleAddPart")
     console.log("PartList::handleAddPart:props: " + JSON.stringify(this.props))
     // Go to Part Store and add a part to the project
+    /*
     this.props.history.push({
       pathname: `/partstore`,
       currentProject: this.props.currentProject
     })
-
+    */
+    this.navigate({
+      pathname: `/partstore`,
+      currentProject: this.props.currentProject
+    })
+    
   }
   isPartInTaskList = (part) => {
     const { parts } = this.props;
@@ -101,13 +108,13 @@ class PartList extends Component {
   }
 
   render() {
-    const { classes, parts } = this.props;
+    const { styles, parts } = this.props;
 
     return (
       <Grid container>
 
-        <Grid item xs={12} className={classes.gridBorder + " " + classes.searchPartList}>
-          <Box className={classes.searchPartList}>
+        <Grid item xs={12} className={styles.gridBorder + " " + styles.searchPartList}>
+          <Box className={styles.searchPartList}>
             <TextField
               id="searchPartList"
               placeholder="Part"
@@ -118,13 +125,13 @@ class PartList extends Component {
 
         <Grid item
           className={
-            classes.gridBorder + " " +
-            classes.taskPartList
+            styles.gridBorder + " " +
+            styles.taskPartList
           }
 
           xs={8}>
           {console.log("PartList::render::return")}
-          <Box className={classes.debugBox}>
+          <Box className={styles.debugBox}>
             {parts && parts.length ? (
               <List>
                 {this.props.parts.map((currentPart, index) => (
@@ -149,8 +156,8 @@ class PartList extends Component {
         </Grid>
         <Grid item xs={4}></Grid>
         <Grid item className={
-          classes.gridBorder + " " +
-          classes.partListActions
+          styles.gridBorder + " " +
+          styles.partListActions
         }
           xs={8}
         >
@@ -173,5 +180,5 @@ class PartList extends Component {
         currentProject: PropTypes.object,
 }
 
-        export default withStyles(styles)(withRouter(PartList));
+        export default PartList;
 

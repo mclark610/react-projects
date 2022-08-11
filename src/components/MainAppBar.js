@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import Button from '@material-ui/core/Button';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import Button from '@mui/material/Button';
 import {NavLink} from 'react-router-dom'
+
+import {css, cx} from '@emotion/react';
 
 const styles = {
   root: {
@@ -25,7 +26,7 @@ const styles = {
 /**
  * @function MainAppBar
  * @description Beginning of application. Please see README.md
- * @param {object}  "classes":{
+ * @param {object}  "styles":{
                       "root":"MainAppBar-root-108",
                       "grow":"MainAppBar-grow-109",
                       "menuButton":"MainAppBar-menuButton-110"},
@@ -35,16 +36,18 @@ const styles = {
  */
 
 function MainAppBar(props) {
-  const { classes, authedUser,activeProject } = props;
+  const { authedUser,activeProject } = props;
   console.log("MainAppBar::activeProject: " + JSON.stringify(activeProject));
+  const color="green";
+
   return (
-    <div className={classes.root}>
+  <div /*className={styles.root}*/> 
       <AppBar position="static">
         <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+          <IconButton /*className={styles.menuButton}*/ color="inherit" aria-label="Menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" color="inherit" className={classes.grow}>
+          <Typography variant="h6" color="inherit" /*className={styles.grow}*/>
             Project
           </Typography>
           <Button
@@ -61,9 +64,8 @@ function MainAppBar(props) {
 }
 
 MainAppBar.propTypes = {
-  classes: PropTypes.object.isRequired,
   authedUser: PropTypes.string.isRequired,
   activeProject: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(MainAppBar)
+export default MainAppBar

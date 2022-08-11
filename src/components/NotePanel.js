@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import CommentIcon from '@material-ui/icons/Comment';
-import {List, ListItem,ListItemText, ListItemSecondaryAction,Checkbox} from '@material-ui/core';
-import { Accordion,AccordionSummary, AccordionDetails  } from '@material-ui/core';
+
+import IconButton from '@mui/material/IconButton';
+import CommentIcon from '@mui/icons-material/Comment';
+
+import Typography from '@mui/material/Typography';
+import {List, ListItem,ListItemText, ListItemSecondaryAction,Checkbox} from '@mui/material';
+import { Accordion,AccordionSummary, AccordionDetails  } from '@mui/material';
 
 const styles = {
   flex: {
@@ -80,7 +81,6 @@ class NotePanel extends React.Component {
     }
 
     NotePanel.propTypes = {
-      classes: PropTypes.object.isRequired,
     };
 
-export default withStyles(styles)(NotePanel);
+export default NotePanel;

@@ -2,10 +2,9 @@ import React from 'react';
 import './App.css';
 import MainPage from './components/MainPage';
 import MainAppBar from './components/MainAppBar';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import {BrowserRouter, Route,Routes } from 'react-router-dom'
 
 import Login from './components/Login'
-import PrivateRoute from './components/PrivateRoute'
 import InvalidPage from './components/InvalidPage'
 import ProjectDetail from './components/ProjectDetail'
 import TaskDetail from './components/TaskDetail'
@@ -16,6 +15,8 @@ import AddTask from './components/AddTask'
 import { filterProjectData } from './components/FilterProjectData'
 import * as mockData from './data/mockData'
 
+import {AuthContext,RequireAuth} from './components/Authorize.js';
+
 /**
  * @description Beginning of application. Please see README.md
  * @constructor
@@ -25,7 +26,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      authedUser: "Admin",
+      authedUser: "Login",
       projects: mockData.tmpProjects,
       tasks: mockData.tmpTasks,
       parts: mockData.tmpParts,
@@ -116,41 +117,106 @@ class App extends React.Component {
     const projectID = this.state.projectID;
     const activeProject = this.state.activeProject;
     const allParts = this.state.allParts;
-    const projectParts = this.state.projectParts;
+//    const projectParts = this.state.projectParts;
+
     return (
       <div className="App">
-        <Router>
+        <AuthContext.Provider value={"Mark"}>
+        <BrowserRouter>
           <MainAppBar authedUser={this.state.authedUser} setAuthedUser={this.handleSetAuthedUser} activeProject={this.state.activeProject}/>
-          <Switch>
-            <Route path="/login">
+          <Routes>
+            <Route path="/" element={<Login authedUser={authedUser} setAuthedUser={this.handleSetAuthedUser}/>}/>
+            
+            <Route path="/login" element={
               <Login authedUser={authedUser} setAuthedUser={this.handleSetAuthedUser} />
-            </Route>
-            <PrivateRoute path="/" exact authedUser={authedUser}>
-              <MainPage authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} activeProject={activeProject} handleProjectData={this.handleProjectData} />
-            </PrivateRoute>
-            <PrivateRoute path="/project/:id" exact authedUser={authedUser}>
-              <ProjectDetail authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} projectID={projectID} activeProject={activeProject}/>
-            </PrivateRoute>
-            <PrivateRoute path="/task/:id" exact authedUser={authedUser}>
-              <TaskDetail authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} projectID={projectID} activeProject={activeProject}/>
-            </PrivateRoute>
-            <PrivateRoute path="/addtask" exact authedUser={authedUser}>
-              <AddTask authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} projectID={projectID} activeProject={activeProject}/>
-            </PrivateRoute>
+            }
+            />
 
-            <PrivateRoute path="/part/:id" exact authedUser={authedUser}>
-              <PartDetail authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} projectID={projectID} activeProject={activeProject}/>
-            </PrivateRoute>
-            <PrivateRoute path="/partstore" exact authedUser={authedUser}>
-              <PartStore authedUser={authedUser} parts={allParts} projects={projects} tasks={tasks} projectID={projectID} activeProject={activeProject}/>
-            </PrivateRoute>
+            <Route 
+              path="/" 
+              element={
+                <RequireAuth>
+                  <MainPage authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} activeProject={activeProject} handleProjectData={this.handleProjectData} /> 
+                </RequireAuth>
+              } 
+              exact 
+              authedUser={authedUser} />
+
+            <Route 
+              path="/project/:id" 
+              exact 
+              authedUser={authedUser}
+              element={
+                <RequireAuth>
+                  <ProjectDetail authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} projectID={projectID} activeProject={activeProject}/>
+                </RequireAuth>
+              }
+            />
+           
+            {/*
+            <Route 
+              path="/" 
+              exact 
+              authedUser={authedUser}
+              element={
+                <RequireAuth>
+                  <MainPage authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} activeProject={activeProject} handleProjectData={this.handleProjectData}/>
+                </RequireAuth>
+              }
+              />
+  
+
+            <Route 
+              path="/task/:id" 
+              exact 
+              authedUser={authedUser}
+              element={
+                <RequireAuth>
+                  <TaskDetail authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} projectID={projectID} activeProject={activeProject}/>
+                </RequireAuth>
+              }
+            />
+
+            <Route 
+              path="/addtask" 
+              exact 
+              authedUser={authedUser}
+              element={
+                <RequireAuth>
+                  <AddTask authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} projectID={projectID} activeProject={activeProject}/>
+                </RequireAuth>
+              }
+            />
+
+            <Route 
+              path="/part/:id" 
+              exact 
+              authedUser={authedUser}
+              element={
+                <RequireAuth>
+                  <PartDetail authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} projectID={projectID} activeProject={activeProject}/>
+                </RequireAuth>
+              }
+            />
+
+            <Route 
+              path="/partstore" 
+              exact 
+              authedUser={authedUser}
+              element={
+                <RequireAuth>
+                  <PartStore authedUser={authedUser} parts={allParts} projects={projects} tasks={tasks} projectID={projectID} activeProject={activeProject}/>
+                </RequireAuth>
+              }
+            />
 
             <Route path="/">
               <InvalidPage />
             </Route>
-
-          </Switch>
-        </Router>
+             */}
+      </Routes>
+      </BrowserRouter>
+      </AuthContext.Provider>
       </div>
     );
   }

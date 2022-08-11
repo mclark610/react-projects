@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import CommentIcon from '@material-ui/icons/Comment';
-import {List, ListItem,ListItemText, ListItemSecondaryAction,Checkbox} from '@material-ui/core';
-import { Accordion,AccordionSummary, AccordionDetails  } from '@material-ui/core';
+
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import CommentIcon from '@mui/icons-material/Comment';
+import {List, ListItem,ListItemText, ListItemSecondaryAction,Checkbox} from '@mui/material';
+import { Accordion,AccordionSummary, AccordionDetails  } from '@mui/material';
 
 
 const styles = {
@@ -45,7 +45,7 @@ class PartPanel extends React.Component {
 
 
     render() {
-        const { classes } = this.props;
+        const { styles } = this.props;
         const { expanded } = this.state;
 
         return (
@@ -58,7 +58,7 @@ class PartPanel extends React.Component {
             <Typography>Part List</Typography>
             </AccordionSummary>
             <AccordionDetails>
-            <List className={classes.root}>
+            <List className={styles.root}>
                 {[0, 1, 2, 3].map(value => (
                   <ListItem key={value} role={undefined} dense button onClick={this.handleToggle(value)}>
                     <Checkbox
@@ -80,7 +80,4 @@ class PartPanel extends React.Component {
         )} /*{ render }*/
     }
 
-    PartPanel.propTypes = {
-      classes: PropTypes.object.isRequired,
-    };
-export default withStyles(styles)(PartPanel);
+export default PartPanel;

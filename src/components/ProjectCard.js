@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import Card from '@material-ui/core/Card'
+import Card from '@mui/material/Card'
 
-import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'
+import CardContent from '@mui/material/CardContent'
+import Typography from '@mui/material/Typography'
 
-import { Avatar } from '@material-ui/core'
+import { Avatar } from '@mui/material'
 import { withRouter } from 'react-router-dom'
 
 class ProjectCard extends Component {

@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import { TextField } from '@material-ui/core';
-import { withRouter } from 'react-router-dom'
-import { Grid, FormGroup, FormControlLabel, Switch } from '@material-ui/core';
+import { TextField } from '@mui/material';
+import { Grid, FormGroup, FormControlLabel, Switch } from '@mui/material';
 import PartList from './PartList';
 
 const styles = () => ({
@@ -47,34 +45,34 @@ class TaskDetail extends React.Component {
   render() {
     const { classes, parts,activeProject } = this.props;
     return (
-      <Grid container spacing={0} className={classes.gridBorder} >
+      <Grid container spacing={0} className={styles.gridBorder} >
 
-        <Grid item className={classes.gridBorder + ' ' + classes.taskActive} xs={8}>
+        <Grid item className={styles.gridBorder + ' ' + styles.taskActive} xs={8}>
           <FormGroup>
             <FormControlLabel control={<Switch defaultChecked />} label="Active" />
           </FormGroup>
         </Grid>
 
-        <Grid item className={classes.gridBorder} xs={8} >
-          <TextField className={classes.taskName} variant="outlined" placeholder="Task Name" />
+        <Grid item className={styles.gridBorder} xs={8} >
+          <TextField className={styles.taskName} variant="outlined" placeholder="Task Name" />
         </Grid>
-        <Grid item className={classes.gridBorder} xs={8} >
-          <TextField multiline variant="outlined" maxRows={4} minRows={4} className={classes.taskDescription} placeholder="Task Description"></TextField>
+        <Grid item className={styles.gridBorder} xs={8} >
+          <TextField multiline variant="outlined" maxRows={4} minRows={4} className={styles.taskDescription} placeholder="Task Description"></TextField>
         </Grid>
 
-        <Grid item xs={8} className={classes.gridBorder}>
+        <Grid item xs={8} className={styles.gridBorder}>
           Notes
         </Grid>
 
-        <Grid item className={classes.gridBorder} xs={8}>
-          <TextField multiline variant="outlined" minRows={8} className={classes.taskNotes} placeholder="Notes"></TextField>
+        <Grid item className={styles.gridBorder} xs={8}>
+          <TextField multiline variant="outlined" minRows={8} className={styles.taskNotes} placeholder="Notes"></TextField>
         </Grid>
 
-        <Grid item xs={8} className={classes.gridBorder}>
+        <Grid item xs={8} className={styles.gridBorder}>
           Part List
         </Grid>
 
-        <Grid item xs={12} className={classes.gridBorder + ' ' + classes.taskPartList}>
+        <Grid item xs={12} className={styles.gridBorder + ' ' + styles.taskPartList}>
           <PartList parts={parts} activeProject={activeProject}/>
         </Grid>
       </Grid>
@@ -87,4 +85,4 @@ TaskDetail.propTypes = {
   parts: PropTypes.array.isRequired,
 };
 
-export default withStyles(styles)(withRouter(TaskDetail));
+export default TaskDetail;

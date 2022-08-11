@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react'
-import {Modal} from '@material-ui/core'
+import {Modal} from '@mui/material'
 
 
 export default TaskModal = (props) => {

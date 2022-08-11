@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import ListItem from '@material-ui/core/ListItem'
-import { ListItemAvatar } from '@material-ui/core'
-import Typography from '@material-ui/core/Typography'
+import ListItem from '@mui/material/ListItem'
+import { ListItemAvatar } from '@mui/material'
+import Typography from '@mui/material/Typography'
 import { PropTypes } from 'prop-types';
-import { Avatar, ListItemText } from '@material-ui/core'
-import { withRouter } from 'react-router-dom'
+import { Avatar, ListItemText } from '@mui/material'
 
 const styles = theme => ({
   tr: {
@@ -32,13 +31,14 @@ class TaskListItem extends Component {
     selectedValue: false
   }
 
+
   onDblClick = (e) => {
     console.log("-------------------------------------------")
     console.log("TaskListItem::onDblClick:doubleclick called! ")
     console.log("TaskListItem::onDblClick:current taskId: " + this.props.currentTask.id)
 
     // Go to TaskDetail
-    this.props.history.push({
+    this.props.navigation.navigate({
       pathname: `/task/${this.props.currentTask.id}`,
       currentTask: this.props.currentTask
     })
@@ -89,4 +89,4 @@ TaskListItem.propTypes = {
   activeProject: PropTypes.object.isRequired
 }
 
-export default withRouter(TaskListItem);
+export default TaskListItem;

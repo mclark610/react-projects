@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { PropTypes } from 'prop-types'
 
-import { Tabs, Tab, FormControl, InputLabel, Select, MenuItem, Paper, Grid, FormHelperText } from '@material-ui/core'
+import { Tabs, Tab, FormControl, InputLabel, Select, MenuItem, Paper, Grid, FormHelperText } from '@mui/material'
 import PartList from './PartList'
 import TaskList from './TaskList'
 
