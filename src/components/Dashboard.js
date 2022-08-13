@@ -11,12 +11,11 @@ import { TabPanel, a11yProps } from './TabPanel'
 * @description This is the starting page.  
 * @constructor sets tab, parts and projects state
 * @param {array}  projects   - array of projects
-* @param {object} authedUser - The authorized userID that may answer the question
 * @param {array} parts       - array of parts
 * @param {array} tasks       - array of tasks
 */
 
-class MainPage extends Component {
+class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -24,13 +23,13 @@ class MainPage extends Component {
       selectedProject: -1,
     }
 
-    console.log("MainPage::props: " + JSON.stringify(props));
+    console.log("Dashboard::props: " + JSON.stringify(props));
   }
 
   handleChange = (e) => {
-    console.log("MainPage::handleChange: new value: <" + e.target.value + ">");
+    console.log("Dashboard::handleChange: new value: <" + e.target.value + ">");
     this.setState({selectedProject:e.target.value})
-    this.props.handleProjectData(e.target.value)
+//    this.props.handleProjectData(e.target.value)
     
   };
 
@@ -102,13 +101,12 @@ class MainPage extends Component {
   }
 }
 
-MainPage.propTypes = {
-  handleProjectData:PropTypes.func.isRequired,
+Dashboard.propTypes = {
+//  handleProjectData:PropTypes.func.isRequired,
   projects: PropTypes.array.isRequired,  
-  authedUser: PropTypes.any.isRequired,
   parts: PropTypes.array.isRequired,
   tasks: PropTypes.array.isRequired,
   activeProject: PropTypes.object.isRequired,
 }
 
-export default MainPage;
+export default Dashboard;

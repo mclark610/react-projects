@@ -4,7 +4,6 @@ import {ListItemAvatar} from '@mui/material'
 import Typography from '@mui/material/Typography'
 
 import { Avatar, ListItemText } from '@mui/material'
-import { withRouter } from 'react-router-dom'
 
 const styles = theme => ({
   tr: {
@@ -82,4 +81,4 @@ class ProjectListItem extends Component {
   }
 }
 
-export default withRouter(ProjectListItem);
+export default ProjectListItem;

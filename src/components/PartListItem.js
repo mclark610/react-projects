@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography'
 
 import { Avatar, ListItemText } from '@mui/material'
 import { PropTypes } from 'prop-types';
-import { useNavigate } from 'react-router-dom'
+//import { useNavigate } from 'react-router-dom'
 
 /**
  * @description Draws the Part list item.
@@ -19,7 +19,7 @@ class PartListItem extends Component {
     open: false,
     selectedValue: false
   }
-  navigate = useNavigate();
+//  navigate = useNavigate();
 
   onDblClick = (e) => {
     console.log("-------------------------------------------")
@@ -33,10 +33,12 @@ class PartListItem extends Component {
       currentPart: this.props.currentPart
     })
     */
+   /*
     this.navigate({
       pathname: `/part/${this.props.currentPart.id}`,
       currentPart: this.props.currentPart
     })
+    */
   }
 
   componentDidMount() {

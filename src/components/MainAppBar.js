@@ -8,6 +8,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
 import {NavLink} from 'react-router-dom'
 import Box from '@mui/material/Box';
+import { SmartButton } from '@mui/icons-material';
 
 /**
  * @function MainAppBar
@@ -20,9 +21,8 @@ function MainAppBar(props) {
   console.log("MainAppBar::activeProject: " + JSON.stringify(activeProject));
   
   return (
-    
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" color="primary">
         <Toolbar>
           <IconButton
             size="large"
@@ -41,7 +41,11 @@ function MainAppBar(props) {
           to="/login"
           id="btnLogin"
           variant="outlined"
-          color="secondary"
+          color="secondary"         
+          sx={{
+            color: "white",
+            borderColor: "white",
+          }}
         >Login</Button>
         </Toolbar>
       </AppBar>

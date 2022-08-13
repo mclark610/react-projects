@@ -1,70 +1,53 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { TextField, Button } from "@mui/material";
+import { Box, TextField, Button } from "@mui/material";
 
 import { useNavigate, useLocation } from "react-router-dom";
-import {useAuth} from "./Authorize.js"
-
-const styles = {
-  root: {
-    flexGrow: 1,
-  },
-  grow: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
-};
+import { useAuth } from "./Authorize.js";
 
 /**
  * @component Login
- * @param {function} setAuthedUser function to set authenticated user.
+ * @param {function} log user in if valid
  * @param {object} authedUser      authenticated user
  * @description retrieves user name and password from user.
- *   checks if valid entry. 
+ *   checks if valid entry.
  * @return
  *   valid: sets username
  */
 
 const Login = (props) => {
-  const navigate = useNavigate();
+  const [username, setUsername] = useState("admin");
+  const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
   let location = useLocation();
   let auth = useAuth();
 
-  const [username, setUsername] = useState("admin");
-  const [password, setPassword] = useState("");
+  // address user wants to go to after he logs in
+  let from = location.state?.from?.pathname || "/";
+  console.log("Login::from: " + from);
 
   console.log("Login::props: " + JSON.stringify(props));
   console.log("Login::auth: " + JSON.stringify(auth));
 
-  const handleChange = (e) => {
-    console.log("Login::name: " + e.target.name);
-    console.log("Login::value:" + e.target.value);
-    console.log("Login::id: " + e.target.id);
-
-//    setUsername(e.target.value);
-  };
-
   /**
    * handleLogin
    * @param {event} e
-   * check if user entry is valid. 
+   * check if user entry is valid.
    */
   const handleLogin = (e) => {
-
-    console.log(`Login::username: ${username} password: ${password}` );
-
+    // get data
+    console.log(
+      `Login::handleLogin::username/password state : ${username} password: ${password}`
+    );
 
     // TODO:validate
-    console.log(`current: ${auth.user}`)
-    // pass authed user to app.
-  //  props.setAuthedUser(username);
+    console.log("handleLogin::auth: " + JSON.stringify(auth));
 
-    // redirect to home.
-    navigate("/");
+    // TODO:authenticate
+    auth.signin(username, () => {
+      navigate(from, { replace: true });
+    });
   };
 
   const handleClose = () => {
@@ -76,14 +59,22 @@ const Login = (props) => {
   return (
     <div>
       <h2>Login</h2>
-      <form action="">
+      <Box
+        component="form"
+        sx={{
+          "& .MuiTextField-root": { m: 1, width: "25ch" },
+          "& button": { m: 1 },
+        }}
+        noValidate
+        autoComplete="off"
+      >
         <TextField
           autoFocus
           id="username"
           name="username"
           label="User Name"
           value={username}
-          onChange={handleChange}
+          onChange={(e) => setUsername(e.target.value)}
         />
         <TextField
           autoFocus
@@ -92,22 +83,24 @@ const Login = (props) => {
           label="Password"
           type="password"
           value={password}
-          onChange={handleChange}
+          onChange={(e) => setPassword(e.target.value)}
           mr={12}
         />
-      </form>
-      <Button onClick={handleClose} color="primary">
-        Cancel
-      </Button>
-      <Button onClick={handleLogin} color="primary">
-        Login
-      </Button>
+        <div>
+          <Button onClick={handleClose} variant="contained" color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleLogin} variant="contained" color="primary">
+            Login
+          </Button>
+        </div>
+      </Box>
     </div>
   );
 };
 
 Login.propTypes = {
-//  setAuthedUser: PropTypes.func.isRequired,
-//  authedUser: PropTypes.string.isRequired,
+  //  setAuthedUser: PropTypes.func.isRequired,
+  //  authedUser: PropTypes.string.isRequired,
 };
 export default Login;

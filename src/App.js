@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import MainPage from './components/MainPage';
+import Dashboard from './components/Dashboard';
 import MainAppBar from './components/MainAppBar';
 import {BrowserRouter, Route,Routes } from 'react-router-dom'
 
@@ -16,8 +16,9 @@ import { filterProjectData } from './components/FilterProjectData'
 import * as mockData from './data/mockData'
 
 import {AuthContext,RequireAuth} from './components/Authorize.js';
-
-
+import appTheme from './themes/muiTheme.js';
+import {ThemeProvider, CssBaseline} from '@mui/material';
+import { AuthProvider,fakeAuthProvider } from "./components/Authorize";
 /**
  * @description Beginning of application. Please see README.md
  * @constructor
@@ -123,23 +124,33 @@ class App extends React.Component {
 
    
     return (
+      <ThemeProvider theme={appTheme}>
+        <CssBaseline enableColorScheme />
       <div className="App">
-        <AuthContext.Provider value={"Mark"}>
-        <BrowserRouter>
+        <AuthProvider value={"Mark"}>
           <MainAppBar authedUser={this.state.authedUser} setAuthedUser={this.handleSetAuthedUser} activeProject={this.state.activeProject}/>
           <Routes>
-            <Route path="/" element={<Login authedUser={authedUser} setAuthedUser={this.handleSetAuthedUser}/>}/>
+            <Route 
+              path="/" 
+              element={
+                <Dashboard 
+                  projects={projects}
+                  parts={parts}
+                  tasks={tasks}
+                  activeProject={activeProject}
+                />}/>
             
             <Route path="/login" element={
               <Login authedUser={authedUser} setAuthedUser={this.handleSetAuthedUser} />
             }
+            
             />
 
             <Route 
               path="/" 
               element={
                 <RequireAuth>
-                  <MainPage authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} activeProject={activeProject} handleProjectData={this.handleProjectData} /> 
+                  <Dashboard authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} activeProject={activeProject} handleProjectData={this.handleProjectData} /> 
                 </RequireAuth>
               } 
               exact 
@@ -155,6 +166,16 @@ class App extends React.Component {
                 </RequireAuth>
               }
             />
+            <Route 
+              path="/partstore" 
+              exact 
+              authedUser={authedUser}
+              element={
+                <RequireAuth>
+                  <PartStore authedUser={authedUser} parts={allParts} projects={projects} tasks={tasks} projectID={projectID} activeProject={activeProject}/>
+                </RequireAuth>
+              }
+            />
            
             {/*
             <Route 
@@ -163,7 +184,7 @@ class App extends React.Component {
               authedUser={authedUser}
               element={
                 <RequireAuth>
-                  <MainPage authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} activeProject={activeProject} handleProjectData={this.handleProjectData}/>
+                  <Dashboard authedUser={authedUser} parts={parts} projects={projects} tasks={tasks} activeProject={activeProject} handleProjectData={this.handleProjectData}/>
                 </RequireAuth>
               }
               />
@@ -218,9 +239,9 @@ class App extends React.Component {
             </Route>
              */}
       </Routes>
-      </BrowserRouter>
-      </AuthContext.Provider>
+      </AuthProvider>
       </div>
+      </ThemeProvider>
     );
   }
 }
