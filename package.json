@@ -21,8 +21,7 @@
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
     "reselect": "^4.1.6",
-    "webpack": "^5.74.0",
-    "winston": "^3.8.1"
+    "webpack": "^5.74.0"
   },
   "scripts": {
     "start": "export SET NODE_OPTIONS=--openssl-legacy-provider && BROWSER=google-chrome react-app-rewired start",

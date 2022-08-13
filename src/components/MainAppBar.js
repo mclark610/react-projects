@@ -7,59 +7,45 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
 import {NavLink} from 'react-router-dom'
-
-import {css, cx} from '@emotion/react';
-
-const styles = {
-  root: {
-    flexGrow: 1,
-  },
-  grow: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
-};
+import Box from '@mui/material/Box';
 
 /**
  * @function MainAppBar
- * @description Beginning of application. Please see README.md
- * @param {object}  "styles":{
-                      "root":"MainAppBar-root-108",
-                      "grow":"MainAppBar-grow-109",
-                      "menuButton":"MainAppBar-menuButton-110"},
-                      "authedUser":"Admin",
-                      "pro"
-                    }
+ * @description Log in user if username password is correct.
+ * @param {functon} setAuthedUser
  */
 
 function MainAppBar(props) {
   const { authedUser,activeProject } = props;
   console.log("MainAppBar::activeProject: " + JSON.stringify(activeProject));
-  const color="green";
-
+  
   return (
-  <div /*className={styles.root}*/> 
+    
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton /*className={styles.menuButton}*/ color="inherit" aria-label="Menu">
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" color="inherit" /*className={styles.grow}*/>
-            Project
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Projects
           </Typography>
-          <Button
-            component={NavLink}
-            to="/login"
-            id="btnLogin"
-            variant="outlined"
-            color="secondary"
-          >{authedUser ? authedUser : 'Login'}</Button>
+        <Button
+          component={NavLink}
+          to="/login"
+          id="btnLogin"
+          variant="outlined"
+          color="secondary"
+        >Login</Button>
         </Toolbar>
       </AppBar>
-    </div>
+    </Box>
   );
 }
 

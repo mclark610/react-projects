@@ -2,11 +2,9 @@ import React,{useState} from "react";
 import PropTypes from "prop-types";
 import { TextField, Button } from "@mui/material";
 
-
-//import { logger } from '../components/logger.js';
-
 import { useNavigate, useLocation } from "react-router-dom";
 import {useAuth} from "./Authorize.js"
+
 const styles = {
   root: {
     flexGrow: 1,

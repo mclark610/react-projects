@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -42,7 +42,8 @@ const styles = () => ({
 function AddTask(props) {
   
   const [projectParts, setProjectParts] = useState();
-
+  const activeProject = "hair dryer";
+  
   const handleAddPart = (part) => {
     console.log("AddTask::handleAddPart::part: " + JSON.stringify(part))
   }
@@ -76,7 +77,7 @@ function AddTask(props) {
         </Grid>
 
         <Grid item xs={12} className={styles.gridBorder + ' ' + styles.taskPartList}>
-          <PartList parts={this.state.projectParts} activeProject={activeProject} addPart={this.handleAddPart}/>
+          <PartList parts={projectParts} activeProject={activeProject} addPart={handleAddPart}/>
         </Grid>
       </Grid>
     );

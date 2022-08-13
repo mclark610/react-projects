@@ -17,6 +17,7 @@ import * as mockData from './data/mockData'
 
 import {AuthContext,RequireAuth} from './components/Authorize.js';
 
+
 /**
  * @description Beginning of application. Please see README.md
  * @constructor
@@ -26,7 +27,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      authedUser: "Login",
+      authedUser: "",
       projects: mockData.tmpProjects,
       tasks: mockData.tmpTasks,
       parts: mockData.tmpParts,
@@ -91,6 +92,7 @@ class App extends React.Component {
   handleSetAuthedUser = (authedUser) => {
     this.setState({authedUser: authedUser});
   }
+
   handleAddTask = (activeProject,tasks, parts) => {
     this.setState({
       activeProject,
@@ -107,7 +109,7 @@ class App extends React.Component {
   handleTaskEditor = (task) => {
 
   }
-
+  
 
   render() {
     const parts = this.state.parts;
@@ -119,6 +121,7 @@ class App extends React.Component {
     const allParts = this.state.allParts;
 //    const projectParts = this.state.projectParts;
 
+   
     return (
       <div className="App">
         <AuthContext.Provider value={"Mark"}>
