@@ -45,7 +45,11 @@ const Login = (props) => {
     console.log("handleLogin::auth: " + JSON.stringify(auth));
 
     // TODO:authenticate
-    auth.signin(username, () => {
+    const data = {
+      username: username,
+      password: password
+    };
+    auth.signin(data, () => {
       navigate(from, { replace: true });
     });
   };

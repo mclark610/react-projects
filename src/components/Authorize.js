@@ -10,9 +10,14 @@ import AuthContext from './AuthContext';
 
 const fakeAuthProvider = {
   isAuthenticated: false,
-  signin(callback) {
-    fakeAuthProvider.isAuthenticated = true;
-    setTimeout(callback, 100); // fake async
+  signin(data,callback) {
+    (data.username==="admin" && data.password==="password")?
+      fakeAuthProvider.isAuthenticated = true:
+      fakeAuthProvider.isAuthenticated = false;
+      console.log('----------------------------------------')
+      console.log(`fakeAuthProvider::user<${data.user}> password<${data.password}> authorized:<${fakeAuthProvider.isAuthenticated}>`);
+      console.log('----------------------------------------')
+    setTimeout(callback, 300); // fake async
   },
   signout(callback) {
     fakeAuthProvider.isAuthenticated = false;
@@ -23,9 +28,9 @@ const fakeAuthProvider = {
 function AuthProvider({ children }) {
   let [user, setUser] = React.useState(null);
 
-  let signin = (newUser, callback) => {
-    return fakeAuthProvider.signin(() => {
-      setUser(newUser);
+  let signin = (data, callback) => {
+    return fakeAuthProvider.signin(data.username,data.password,() => {     
+      setUser(data.username);
       callback();
     });
   };
