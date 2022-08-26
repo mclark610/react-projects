@@ -1,64 +1,71 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useContext } from "react";
 import { Box, TextField, Button } from "@mui/material";
-
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "./Authorize.js";
+import { AuthContext } from "../context/AuthContext";
 
 /**
  * @component Login
  * @param {function} log user in if valid
- * @param {object} authedUser      authenticated user
+ * @param {object} auth      authenticated user
  * @description retrieves user name and password from user.
  *   checks if valid entry.
  * @return
  *   valid: sets username
  */
 
-const Login = (props) => {
-  const [username, setUsername] = useState("admin");
-  const [password, setPassword] = useState("");
+const Login = () => {
+  const { isAuthenticated, auth, login, logout } = useContext(AuthContext);
 
+  console.log("LOGIN isAuthenticated: " + isAuthenticated);
+  console.log("LOGIN auth: " + JSON.stringify(auth));
+
+  const [username, setUsername] = useState(auth.name);
+  const [password, setPassword] = useState(auth.pwd);
+
+  //console.log("Login::isAuthenticated: "  + isAuthenticated);
   const navigate = useNavigate();
   let location = useLocation();
-  let auth = useAuth();
 
   // address user wants to go to after he logs in
   let from = location.state?.from?.pathname || "/";
   console.log("Login::from: " + from);
-
-  console.log("Login::props: " + JSON.stringify(props));
-  console.log("Login::auth: " + JSON.stringify(auth));
 
   /**
    * handleLogin
    * @param {event} e
    * check if user entry is valid.
    */
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     // get data
     console.log(
       `Login::handleLogin::username/password state : ${username} password: ${password}`
     );
 
-    // TODO:validate
-    console.log("handleLogin::auth: " + JSON.stringify(auth));
-
-    // TODO:authenticate
-    const data = {
-      username: username,
-      password: password
-    };
-    auth.signin(data, () => {
-      navigate(from, { replace: true });
-    });
+    try {
+      await login(username, password);
+      // TODO:authenticate
+      if (isAuthenticated === true) {
+        console.log("Login: from: " + from);
+        navigate(from, { replace: true });
+      } else {
+        console.log(
+          `handleLogin issues with isAuthenticated: ${isAuthenticated}`
+        );
+      }
+    } catch (err) {
+      console.log("error found in calling login");
+    }
   };
 
+  const handleLogout = () => {
+    logout();
+  };
   const handleClose = () => {
-    // redirect to home.
-    //    this.props.history.push('/')
-    navigate("/");
-  };
+    if (isAuthenticated === true) {
+      navigate(from, { replace: true });
+    } 
+};
 
   return (
     <div>
@@ -96,6 +103,9 @@ const Login = (props) => {
           </Button>
           <Button onClick={handleLogin} variant="contained" color="primary">
             Login
+          </Button>
+          <Button onClick={handleLogout} variant="contained" color="primary">
+            Logout
           </Button>
         </div>
       </Box>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -8,8 +8,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
 import {NavLink} from 'react-router-dom'
 import Box from '@mui/material/Box';
-import { SmartButton } from '@mui/icons-material';
-
+import { AuthContext } from '../context/AuthContext';
 /**
  * @function MainAppBar
  * @description Log in user if username password is correct.
@@ -17,9 +16,16 @@ import { SmartButton } from '@mui/icons-material';
  */
 
 function MainAppBar(props) {
-  const { authedUser,activeProject } = props;
-  console.log("MainAppBar::activeProject: " + JSON.stringify(activeProject));
+  const { activeProject } = props;
+  const {isAuthenticated, auth} = useContext(AuthContext);
+
   
+  const btnValue = isAuthenticated? auth.name:"Login";
+  console.log("MainAppBar: btnValue: " + btnValue);
+  console.log("MainAppBar:isAuthenticated: " + isAuthenticated);
+  console.log("auth is : " + JSON.stringify(auth));
+  console.log("MainAppBar::activeProject: " + JSON.stringify(activeProject));
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="primary">
@@ -36,7 +42,7 @@ function MainAppBar(props) {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Projects
           </Typography>
-        <Button
+        <Button 
           component={NavLink}
           to="/login"
           id="btnLogin"
@@ -46,7 +52,7 @@ function MainAppBar(props) {
             color: "white",
             borderColor: "white",
           }}
-        >Login</Button>
+        >{btnValue}</Button>
         </Toolbar>
       </AppBar>
     </Box>
@@ -54,7 +60,6 @@ function MainAppBar(props) {
 }
 
 MainAppBar.propTypes = {
-  authedUser: PropTypes.string.isRequired,
   activeProject: PropTypes.object.isRequired
 };
 
