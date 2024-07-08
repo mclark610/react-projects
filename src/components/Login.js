@@ -22,7 +22,6 @@ const Login = () => {
   const [username, setUsername] = useState(auth.name);
   const [password, setPassword] = useState(auth.pwd);
 
-  //console.log("Login::isAuthenticated: "  + isAuthenticated);
   const navigate = useNavigate();
   let location = useLocation();
 
@@ -44,23 +43,20 @@ const Login = () => {
 
     try {
       await login(username, password);
-      // TODO:authenticate
       if (isAuthenticated === true) {
         console.log("Login: from: " + from);
         navigate(from, { replace: true });
-      } else {
-        console.log(
-          `handleLogin issues with isAuthenticated: ${isAuthenticated}`
-        );
       }
+    
     } catch (err) {
-      console.log("error found in calling login");
+      console.log(`error found in calling login ${err}`);
     }
   };
 
   const handleLogout = () => {
     logout();
   };
+
   const handleClose = () => {
     if (isAuthenticated === true) {
       navigate(from, { replace: true });
@@ -73,7 +69,7 @@ const Login = () => {
       <Box
         component="form"
         sx={{
-          "& .MuiTextField-root": { m: 1, width: "25ch" },
+          "& .MuiTextField-root": { m: 1, width: "25ch", border: "2px solid red" },
           "& button": { m: 1 },
         }}
         noValidate

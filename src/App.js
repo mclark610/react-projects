@@ -4,13 +4,10 @@ import Dashboard from "./components/Dashboard";
 import MainAppBar from "./components/MainAppBar";
 import { Route, Routes } from "react-router-dom";
 
+
 import Login from "./components/Login";
-import InvalidPage from "./components/InvalidPage";
 import ProjectDetail from "./components/ProjectDetail";
-import TaskDetail from "./components/TaskDetail";
-import PartDetail from "./components/PartDetail";
 import PartStore from "./components/PartStore";
-import AddTask from "./components/AddTask";
 
 import { filterProjectData } from "./components/FilterProjectData";
 import * as mockData from "./data/mockData";
@@ -18,14 +15,17 @@ import * as mockData from "./data/mockData";
 import appTheme from "./themes/muiTheme.js";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import AuthContextProvider from "./context/AuthContext";
+
 /**
  * @description Beginning of application. Please see README.md
  * @constructor
  */
 
 class App extends React.Component {
+  
   constructor(props) {
     super(props);
+    
     this.state = {
       authedUser: "",
       projects: mockData.tmpProjects,

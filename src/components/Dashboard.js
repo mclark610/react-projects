@@ -5,8 +5,11 @@ import { Tabs, Tab, FormControl, InputLabel, Select, MenuItem, Paper, Grid, Form
 import PartList from './PartList'
 import TaskList from './TaskList'
 
+import { AuthContext } from '../context/AuthContext';
+
 import { TabPanel, a11yProps } from './TabPanel'
 
+import { Navigate } from 'react-router'
 /**
 * @description This is the starting page.  
 * @constructor sets tab, parts and projects state
@@ -16,15 +19,12 @@ import { TabPanel, a11yProps } from './TabPanel'
 */
 
 class Dashboard extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
+  static authContextType = AuthContext;
+
+  state = {
       selectedTab: 0,
       selectedProject: -1,
-    }
-
-    console.log("Dashboard::props: " + JSON.stringify(props));
-  }
+  };
 
   handleChange = (e) => {
     console.log("Dashboard::handleChange: new value: <" + e.target.value + ">");
@@ -38,7 +38,15 @@ class Dashboard extends Component {
   };
 
   render() {
+      const {isAuthenticated} = this.context;
+      console.log("dashboard isauthenticiated: " + isAuthenticated);
+    if (!isAuthenticated) {
+      return(
+        <Navigate to="/login" replace />
+      );
+    }
     return (
+
       <div>
         <Grid
           container
